@@ -281,7 +281,7 @@ A prioridade reduziu em 34 % a latência mediana dos *jobs* rápidos, com média
 
 O gargalo dominante é a própria GPU: com 2 *slots*, a execução mediana de cada *job* subiu de 11,9 s para 21,0 s, enquanto a espera nas travas foi de 0,05 a 0,2 s por componente, razão pela qual dois *slots* rendem só 13 % mais vazão. A capacidade sustentada medida é de cerca de 5 *jobs*/min no *preset* rápido, e um objetivo de p95 de 1 min comporta rajadas de 4 a 5 pedidos (p95 de 46,7 s com 4 clientes e de 93,5 s com 8). O pico por *job* foi de 18,9 GiB alocados, abaixo do teto de 24 GiB. Os 18 testes automatizados do servidor, com motor simulado, foram aprovados, e, em dois desligamentos não planejados da estação, os contêineres retornaram automaticamente com a fila preservada. Como limitações, as configurações foram medidas em sequência numa máquina compartilhada; o cenário misto não incluiu o *preset* alto; a escala para várias GPUs foi apenas projetada; o monitoramento das métricas não foi ligado; e o servidor não foi exposto publicamente, havendo uma proposta de exposição documentada no repositório, que aguarda decisão.
 
-Código e evidências da geração 3D e do servidor: [repositório cerise-2026-gen3d (privado)](https://github.com/EduardoCaixeta/cerise-2026-gen3d)
+Código e evidências da geração 3D e do servidor: [repositório cerise-2026-gen3d (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
 ## Aplicativo CERISE AR com geração de objetos 3D texturizados
 
@@ -343,7 +343,7 @@ Na parte normativa, foram preparados a política de privacidade em português, c
 
 O pacote está pronto e verificado, mas o aplicativo não foi publicado, razão pela qual a atividade é considerada parcialmente concluída. Permanecem pendentes a criação do aplicativo no Play Console, o envio do AAB ao teste interno, o teste fechado e os formulários, que exigem autenticação do bolsista; a publicação da política de privacidade no endereço público previsto, que respondia com erro 404 em 26/10/2026; e a exposição pública do servidor de geração 3D, sem a qual a revisão de produção não deve ser solicitada. Também devem ser verificadas a disponibilidade do nome de pacote e a cópia de segurança da chave de *upload*. No iOS, a compilação assinada e o envio ao TestFlight foram documentados, mas não executados.
 
-Código e evidências do aplicativo: [repositório cerise-ar, pull request #1 em rascunho (privado)](https://github.com/EduardoCaixeta/cerise-ar/pull/1)
+Código e evidências do aplicativo: [repositório cerise-ar, branch feat/2026-gen3d-playstore (privado)](https://github.com/cerise-ufg/cerise-ar/tree/feat/2026-gen3d-playstore)
 
 ## Geração e documentação do novo dataset do braço robótico
 
@@ -499,7 +499,7 @@ O modelo final foi empacotado num módulo de inferência (`PosePredictor`), usad
 
 As principais limitações da avaliação são as medições apenas em dados sintéticos e com duas câmeras fixas, sem imagens reais do braço físico; a junta 5 não observável com os pontos-chave escolhidos e a abertura da garra não estimada; e os experimentos de generalização e de robustez feitos em subconjuntos. Como próximos passos, propõem-se adicionar pontos-chave nas pontas das pinças, randomizar pose de câmera, iluminação e texturas na geração de dados, incluir ruído, desfoque e compressão no aumento de dados e capturar imagens reais para aplicar a etapa autossupervisionada de 2025.
 
-Código e evidências da estimação de pose: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/EduardoCaixeta/cerise-2026-pose-servo6dof)
+Código e evidências da estimação de pose: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/cerise-ufg/cerise-2026-pose-servo6dof)
 
 ## Modelo digital do braço robótico
 
@@ -597,7 +597,7 @@ No teste em ROS 2 (40 s, imagens da câmera frontal publicadas a 2 Hz), o tópic
 
 O gêmeo reproduz o comportamento do braço nas juntas que o modelo observa bem: nas juntas 1 a 4, o erro mediano é de 3,8°, e 64,5 % dos quadros têm o efetuador a menos de 10 cm da posição real, com 5,9 a 9,8 quadros/s em malha fechada (conforme a câmera e a carga da GPU) e latência mediana de 0,1 s, adequados ao acompanhamento visual. Como limitações, a validação foi feita apenas em simulação, com imagens sintéticas e as mesmas duas câmeras do treino; a rotação da garra não é estimada de forma útil e a abertura da garra não é estimada; a latência foi medida com a GPU compartilhada, sem garantia de tempo real; e cada quadro é tratado de forma independente, sem filtro temporal. O visualizador não foi exposto publicamente, o que depende de decisão do bolsista. Propõem-se a avaliação com o braço físico e câmera calibrada, a fusão das duas câmeras com filtragem temporal e a inclusão de pontos-chave nas pinças.
 
-Código e evidências do dataset, do modelo digital e do gêmeo digital: [repositório cerise-2026-servo6dof-gemeo-digital (privado)](https://github.com/EduardoCaixeta/cerise-2026-servo6dof-gemeo-digital)
+Código e evidências do dataset, do modelo digital e do gêmeo digital: [repositório cerise-2026-servo6dof-gemeo-digital (privado)](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital)
 
 ## Comunicação LoRa: protótipo e projeto do módulo
 
@@ -668,7 +668,7 @@ No modelo suburbano em SF9, o alcance estimado passa de 4,13 km com o drone a 30
 
 O software do protótipo está completo e verificado, mas a Atividade 10 permanece parcial: nenhum ensaio físico foi realizado, de modo que RSSI, SNR, PDR real, alcance e temporização do ACK não foram medidos, e os resultados do *dashboard* validam o software de registro, não o enlace. Nenhum módulo foi fabricado nem instalado nos drones, e os valores de alcance, massa e consumo são estimativas. O protótipo opera em canal único: a conformidade plena ao Ato nº 14.448/2017 requer salto de frequência com no mínimo 35 canais ou o enquadramento como modulação digital, além da homologação, e o protocolo ainda não tem cifragem nem autenticação. O próximo passo é adquirir duas placas Heltec V3 e antenas, gravar o firmware e executar o ensaio de alcance e PDR.
 
-Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/EduardoCaixeta/cerise-2026-lora-prototipo)
+Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/cerise-ufg/cerise-2026-lora-prototipo)
 
 ## Segmentação da área de atuação entre drones
 
@@ -799,7 +799,7 @@ A lógica foi validada apenas por simulação, com 348 pessoas sintéticas está
 
 A adequação física dos drones não foi executada por depender de hardware. Além do módulo LoRa, foram levantados como requisitos: câmera em nádir com pelo menos 12 MP (resolução no solo inferior a 1,5 cm/pixel a 40 m) e disparo por distância; processamento das imagens na estação de solo após o pouso, cenário validado nesta etapa, ou em computador embarcado, o que exige revisar massa e autonomia; e GNSS com correção RTK ou PPK, que permite raios de deduplicação de 1 a 2 m. O ajuste fino foi curto (5 épocas), e o VisDrone contém majoritariamente imagens oblíquas de cenas urbanas, distintas das imagens em nádir a 40 m previstas para o campus; a agregação foi validada apenas com pessoas sintéticas, e o resultado com o detector medido indica a necessidade de confirmação multivista antes do uso operacional. Os próximos passos incluem coletar e anotar imagens próprias do campus e treinar por mais épocas.
 
-Código e evidências da segmentação, da colaboração e da detecção: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências da segmentação, da colaboração e da detecção: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Validação da contagem em vídeos reais de drone
 
@@ -848,7 +848,7 @@ A escala da pessoa na imagem, que funciona como indicador da altitude, foi o fat
 
 Três decisões foram levadas para a simulação: usar o detector ajustado com BoT-SORT e GMC; tratar as trilhas apenas como agregadoras de uma mesma passagem; e fazer a contagem única pela posição projetada no solo, não pelos IDs. Como limitações, o VisDrone2019-MOT é oblíquo, urbano e filmado a baixa altura, ao passo que a missão da UFG é em nádir sobre um campus. Além disso, o val tem só 7 sequências e o TrackEval original não foi executado.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Simulação 3D de drones contando pessoas
 
@@ -907,7 +907,7 @@ Ficam como limitações o terreno procedural, a atitude ideal dos drones (sem ve
 - repetir o cenário completo com a navmesh por subárea;
 - validar em voo real no campus.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Produção científica: artigos publicados e pôster
 
@@ -980,17 +980,18 @@ Os próximos passos foram priorizados pelo quanto destravam as entregas pendente
 
 # Anexos
 
-O código-fonte, os resultados medidos (arquivos JSON e CSV), os registros de execução e as evidências citadas neste relatório estão nos repositórios listados a seguir. Os repositórios são privados, e o acesso pode ser concedido mediante solicitação ao bolsista. Dados volumosos, como o dataset completo do braço robótico e os pesos dos modelos treinados, não foram versionados e permanecem na estação DGX Spark. Algumas figuras deste relatório foram recortadas, rearranjadas ou redesenhadas a partir das evidências originais, sem alteração dos dados, para melhorar a legibilidade.
+O código-fonte, os resultados medidos (arquivos JSON e CSV), os registros de execução e as evidências citadas neste relatório estão nos repositórios listados a seguir, reunidos na organização [cerise-ufg](https://github.com/cerise-ufg) do GitHub. Os repositórios são privados, e o acesso pode ser concedido mediante solicitação ao bolsista. Os arquivos volumosos — o dataset completo do braço robótico nas versões cinza e laranja, os pesos dos modelos treinados, as saídas brutas das simulações, os resultados da geração 3D e os pacotes do aplicativo — estão anexados às Releases de cada repositório, com somas SHA-256 e instruções de extração no arquivo RELEASES.md; dados e pesos de terceiros não são redistribuídos e têm a fonte documentada em cada README. Algumas figuras deste relatório foram recortadas, rearranjadas ou redesenhadas a partir das evidências originais, sem alteração dos dados, para melhorar a legibilidade.
 
 Tabela: Repositórios com o código, os resultados medidos e as evidências das atividades
 | Repositório | Conteúdo |
 |---|---|
-| [cerise-2026-gen3d](https://github.com/EduardoCaixeta/cerise-2026-gen3d) | Análise comparativa, otimização e validação da geração 3D; servidor de geração 3D (pasta server) |
-| [cerise-ar](https://github.com/EduardoCaixeta/cerise-ar), [pull request #1](https://github.com/EduardoCaixeta/cerise-ar/pull/1) | Aplicativo CERISE AR 1.1.0: integração com o servidor e pacote da Play Store (branch feat/2026-gen3d-playstore) |
-| [cerise-2026-servo6dof-gemeo-digital](https://github.com/EduardoCaixeta/cerise-2026-servo6dof-gemeo-digital) | Geração do dataset do braço (datasheet e amostra), modelo digital e gêmeo digital |
-| [cerise-2026-pose-servo6dof](https://github.com/EduardoCaixeta/cerise-2026-pose-servo6dof) | Porte, treino e avaliação do modelo de estimação de pose e módulo de inferência |
-| [cerise-2026-lora-prototipo](https://github.com/EduardoCaixeta/cerise-2026-lora-prototipo) | Protocolo, firmware, testes, simulação e projeto do módulo de comunicação LoRa |
-| [cerise-2026-drones-segmentacao](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao) | Segmentação de áreas, colaboração entre drones e detecção e contagem de pessoas |
+| [cerise-2026-gen3d](https://github.com/cerise-ufg/cerise-2026-gen3d) | Análise comparativa, otimização e validação da geração 3D; servidor de geração 3D (pasta server) |
+| [cerise-ar](https://github.com/cerise-ufg/cerise-ar), [branch feat/2026-gen3d-playstore](https://github.com/cerise-ufg/cerise-ar/tree/feat/2026-gen3d-playstore) | Aplicativo CERISE AR 1.1.0: integração com o servidor e pacote da Play Store (branch feat/2026-gen3d-playstore) |
+| [cerise-2026-servo6dof-gemeo-digital](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital) | Geração do dataset do braço (datasheet e amostra), modelo digital e gêmeo digital |
+| [cerise-2026-pose-servo6dof](https://github.com/cerise-ufg/cerise-2026-pose-servo6dof) | Porte, treino e avaliação do modelo de estimação de pose e módulo de inferência |
+| [cerise-2026-lora-prototipo](https://github.com/cerise-ufg/cerise-2026-lora-prototipo) | Protocolo, firmware, testes, simulação e projeto do módulo de comunicação LoRa |
+| [cerise-2026-drones-segmentacao](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao) | Segmentação de áreas, colaboração entre drones, detecção e contagem de pessoas, validação em vídeos reais e simulação 3D no Isaac Sim |
+| [cerise-2026-relatorio](https://github.com/cerise-ufg/cerise-2026-relatorio) | Este relatório (texto-fonte, .docx e .pdf), gerador, figuras e anexos (artigos, pôster, certificados e fotos do CERISE Summit 2026) |
 
 # Referências bibliográficas
 

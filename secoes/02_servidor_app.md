@@ -56,7 +56,7 @@ O gargalo dominante é a própria GPU: com 2 *slots*, a execução mediana de ca
 
 Como limitações, as configurações foram medidas em sequência numa máquina compartilhada, sem controle da carga de fundo; o cenário misto não incluiu jobs do *preset* alto; a escala para várias GPUs ou máquinas foi apenas projetada; o monitoramento sobre as métricas não foi ligado; e o servidor não foi exposto publicamente, sendo acessível apenas por encaminhamento local. Uma proposta de exposição, com opções e riscos, está documentada no repositório e aguarda decisão.
 
-Código e evidências: [repositório cerise-2026-gen3d, pasta server (privado)](https://github.com/EduardoCaixeta/cerise-2026-gen3d)
+Código e evidências: [repositório cerise-2026-gen3d, pasta server (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
 ## Aplicativo CERISE AR com geração de objetos 3D texturizados
 
@@ -110,7 +110,7 @@ O *build* Release para o Simulador iOS foi gerado num Mac mini M4 (Xcode 26.6) e
 
 A validação com o servidor real ocorreu apenas no emulador e pela rede interna, sem teste em aparelho físico, em rede móvel ou com fotografias da câmera. A RA dos modelos gerados não foi validada nesta versão, porque o ARCore não carrega no emulador x86_64 com bibliotecas ARM traduzidas e o simulador iOS não executa a biblioteca de RA. A estimativa de espera exibida na fila foi superestimada para o *preset* alto (1 min 21 s para 28 s reais), por depender de um valor inicial de 82 s ainda não recalibrado no servidor. Por fim, o uso fora da rede interna depende da exposição pública do servidor, ainda não decidida.
 
-Código e evidências: [repositório cerise-ar, branch feat/2026-gen3d-playstore, pull request em rascunho (privado)](https://github.com/EduardoCaixeta/cerise-ar/pull/1)
+Código e evidências: [repositório cerise-ar, branch feat/2026-gen3d-playstore, pull request em rascunho (privado)](https://github.com/cerise-ufg/cerise-ar/pull/1)
 
 ## Adequação do aplicativo para publicação na Play Store
 
@@ -153,7 +153,7 @@ Os requisitos normativos e de conteúdo foram tratados da seguinte forma:
 
 O pacote de publicação está pronto e verificado, mas o aplicativo não foi publicado, razão pela qual a atividade é considerada parcialmente concluída. Permanecem pendentes: a criação do aplicativo no Play Console, o envio do AAB ao teste interno, a condução do teste fechado e o preenchimento dos formulários, que exigem autenticação na conta de desenvolvedor; a publicação da política de privacidade no endereço público previsto, que respondia com erro 404 em 26/10/2026; e a exposição pública do servidor de geração 3D, pois o endereço padrão configurado no aplicativo ainda não responde e a revisão de produção não deve ser solicitada antes disso. Caso a exposição adote chave de API, o aplicativo deverá ser recompilado com a chave. Também devem ser verificadas a disponibilidade do nome de pacote na loja e a cópia de segurança da chave de *upload*. No iOS, a compilação assinada para aparelho e o envio ao TestFlight foram documentados, mas não executados.
 
-Código e evidências: [repositório cerise-ar, pull request em rascunho com o pacote da loja (privado)](https://github.com/EduardoCaixeta/cerise-ar/pull/1)
+Código e evidências: [repositório cerise-ar, pull request em rascunho com o pacote da loja (privado)](https://github.com/cerise-ufg/cerise-ar/pull/1)
 
 <!-- REFERENCIAS
 [@hunyuan3d2]: TENCENT HUNYUAN3D TEAM. Hunyuan3D 2.0: scaling diffusion models for high resolution textured 3D assets generation. arXiv preprint arXiv:2501.12202, 2025.

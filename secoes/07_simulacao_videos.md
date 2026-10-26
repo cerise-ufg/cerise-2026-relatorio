@@ -45,7 +45,7 @@ A escala da pessoa na imagem, que funciona como indicador da altitude, foi o fat
 
 Três decisões foram levadas para a simulação: usar o detector ajustado com BoT-SORT e GMC; tratar as trilhas apenas como agregadoras de uma mesma passagem; e fazer a contagem única pela posição projetada no solo, não pelos IDs. Como limitações, o VisDrone2019-MOT é oblíquo, urbano e filmado a baixa altura, ao passo que a missão da UFG é em nádir sobre um campus. Além disso, o val tem só 7 sequências e o TrackEval original não foi executado.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Simulação 3D de drones contando pessoas
 
@@ -98,7 +98,7 @@ Ficam como limitações o terreno procedural, a atitude ideal dos drones (sem ve
 - repetir o cenário completo com a navmesh por subárea;
 - validar em voo real no campus.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 <!-- REFERENCIAS
 [@zhu2022visdrone]: ZHU, P. et al. Detection and tracking meet drones challenge. IEEE Transactions on Pattern Analysis and Machine Intelligence, v. 44, n. 11, p. 7380-7399, 2022.

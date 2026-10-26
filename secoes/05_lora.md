@@ -58,7 +58,7 @@ Por fim, o leitor serial do gateway (dashboard) foi exercitado com 600 s simulad
 
 O software do protótipo está completo e verificado, mas a atividade permanece parcial: nenhum ensaio físico foi realizado, de modo que RSSI, SNR, PDR real, alcance e temporização do ACK não foram medidos. Os resultados do dashboard validam o software de registro, não o enlace, pois provêm de um canal sintético; a simulação adota sincronismo ideal no TDMA. O protótipo opera em canal único: a conformidade plena ao Ato nº 14.448/2017 requer salto de frequência com no mínimo 35 canais ou o enquadramento como modulação digital, além da homologação (alterações posteriores do Ato não foram verificadas). O protocolo também não possui cifragem nem autenticação. O próximo passo é adquirir duas placas Heltec V3 e antenas, gravar o firmware e executar o ensaio de alcance e PDR descrito na subseção seguinte.
 
-Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/EduardoCaixeta/cerise-2026-lora-prototipo)
+Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/cerise-ufg/cerise-2026-lora-prototipo)
 
 ## Projeto dos módulos de comunicação para os drones
 
@@ -116,7 +116,7 @@ A adequação dos drones foi definida em nível de projeto: fixação do gabinet
 
 O projeto reúne os elementos necessários para a construção dos módulos assim que as placas forem adquiridas, e a interface com o computador de bordo já é compatível com o formato adotado pela frente de drones. Entretanto, nenhum módulo foi fabricado nem instalado, e os valores de alcance, massa e consumo são estimativas por modelo e por dados típicos de datasheet. A operação em voo também depende do salto de frequência, da homologação do equipamento e da implementação de autenticação, ainda não realizados.
 
-Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/EduardoCaixeta/cerise-2026-lora-prototipo)
+Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https://github.com/cerise-ufg/cerise-2026-lora-prototipo)
 
 <!-- REFERENCIAS
 [@radiolib]: GROMEŠ, J. RadioLib: universal wireless communication library for embedded devices. Versão 7.8.1. Disponível em: https://github.com/jgromes/RadioLib.

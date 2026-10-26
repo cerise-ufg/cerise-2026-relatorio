@@ -58,7 +58,7 @@ Na aparência, o Hunyuan3D-2.0 com o módulo de textura completo obteve os maior
 
 Foi selecionado o **Hunyuan3D-2 Turbo** (forma destilada com FlashVDM, textura Paint-v2-0-Turbo e remoção de iluminação), pelos seguintes motivos: melhor geometria medida no conjunto completo; textura UV real, requisito para boa aparência em realidade aumentada; pico de memória de cerca de 14,5 GB, compatível com o teto da frente e com a coexistência com os serviços de produção; e licença que permite o uso no Brasil, embora exclua a União Europeia, o Reino Unido e a Coreia do Sul e exija licença própria para uso comercial acima de 1 milhão de usuários mensais. O TripoSR (MIT) fica documentado como alternativa de licença permissiva, e o Hunyuan3D-2.1 (PBR), como evolução futura quando houver GPU dedicada.
 
-Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/EduardoCaixeta/cerise-2026-gen3d)
+Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
 ## Otimização do modelo integrado e desempenho
 
@@ -118,7 +118,7 @@ O teste ponta a ponta do servidor, realizado em 26/10/2026, revelou que a recodi
 
 A correção (`--formats "*"`) foi aplicada no motor do servidor e em `pipeline/postprocess.py` no repositório. Com ela, a mesma fotografia de teste passou de 2,97 MB para 0,72 MB no preset padrão e de 2,60 MB para 0,44 MB no rápido. No GLB corrigido, a textura JPEG ocupa 0,23 MB dos 0,72 MB, de modo que a geometria passa a responder pela maior parte do arquivo. Ainda falta reconstruir a imagem Docker com a correção e refazer a rodada de presets para obter as medianas definitivas. Todos os tempos foram medidos com a máquina compartilhada, e recomenda-se repeti-los numa janela ociosa da GPU.
 
-Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/EduardoCaixeta/cerise-2026-gen3d)
+Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
 ## Validação dos objetos 3D gerados
 
@@ -165,7 +165,7 @@ Foram identificados os seguintes casos de falha e limitações:
 - **Estruturas finas nos concorrentes**: o InstantMesh colapsou as asas da águia, o que responde pela maior parte da queda do seu F-score@0,05 no subconjunto que a inclui; no TripoSR, as faces ocultas saem escuras e borradas.
 - **Limitações da avaliação**: o CLIP mede semelhança visual, e não exatidão métrica; o renderizador sem sombreamento PBR subestima o Hunyuan3D-2.1; e não houve ainda teste com fotografias capturadas pelo próprio aplicativo no celular, etapa que depende da integração tratada em seção própria.
 
-Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/EduardoCaixeta/cerise-2026-gen3d)
+Código e evidências: [repositório cerise-2026-gen3d (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
 <!-- REFERENCIAS
 [@gso]: DOWNS, L. et al. Google Scanned Objects: a high-quality dataset of 3D scanned household items. In: IEEE INTERNATIONAL CONFERENCE ON ROBOTICS AND AUTOMATION (ICRA), 2022, Filadélfia. Proceedings [...]. IEEE, 2022. arXiv:2204.11918.

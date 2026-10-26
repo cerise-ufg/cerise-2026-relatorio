@@ -53,7 +53,7 @@ O dataset é íntegro, uniforme e documentado, mas apresenta limitações que or
 
 Todos os resultados desta seção e das seções seguintes referem-se à versão do dataset com o braço em cinza (5.000 poses, 2,51 GB), preservada integralmente na estação DGX Spark. Posteriormente, foi iniciada uma nova renderização do dataset com o braço na cor laranja, ainda em andamento na data deste relatório e sem resultados aqui reportados.
 
-Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/EduardoCaixeta/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
+Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
 
 ## Modelo digital do braço robótico
 
@@ -107,7 +107,7 @@ No MoveIt 2, os cinco objetivos — três em espaço de juntas, um alvo cartesia
 
 O modelo digital é cinematicamente consistente com o simulador e com o ROS 2, o que o qualifica como referência para o gêmeo digital. As limitações são de natureza dinâmica e de fidelidade da garra: as massas são simbólicas e as inércias são valores de preenchimento, inadequados para simulação dinâmica fiel; o Gazebo Fortress não implementa as juntas *mimic*, de modo que a geometria da garra nas imagens difere da do modelo e responde por parte do erro residual de silhueta; e o planejamento não inclui o chão como objeto de colisão. O MoveIt 2 foi exercitado apenas com hardware simulado, e a validação com o braço físico, assim como a calibração de massas e inércias a partir do CAD ou de medições, permanece como trabalho futuro.
 
-Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/EduardoCaixeta/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
+Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
 
 ## Gêmeo digital do braço robótico
 
@@ -167,7 +167,7 @@ No teste em ROS 2 (40 s, imagens da câmera frontal do conjunto de teste publica
 
 O gêmeo reproduz o comportamento do braço nas juntas que o modelo observa bem: nas juntas 1 a 4, o erro mediano é de 3,8°, e 64,5 % dos quadros têm o efetuador a menos de 10 cm da posição real, com cerca de 10 quadros/s e latência mediana de 0,1 s, adequados ao acompanhamento visual. O resultado depende essencialmente do modelo de pose, pois a integração não acrescenta erro e acrescenta pouco tempo. Como limitações, a validação foi feita apenas em simulação, com imagens sintéticas e as mesmas duas câmeras fixas do treino; a rotação da garra (`joint_5`, 41,7°) não é estimada de forma útil e a abertura da garra não é estimada (no ROS 2 ela é fixada em 0 rad apenas para completar a árvore TF); a latência foi medida com a GPU compartilhada e o navegador no mesmo host, sem garantia de tempo real; e cada quadro é tratado de forma independente, sem filtro temporal, sobre uma sequência de poses independentes, não um movimento contínuo. O visualizador não foi exposto publicamente, o que depende de decisão do bolsista. Como próximos passos, propõem-se a avaliação com o braço físico e câmera calibrada, a fusão das duas câmeras com filtragem temporal e a inclusão de pontos-chave nas pinças da garra.
 
-Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/EduardoCaixeta/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
+Código e evidências: [cerise-2026-servo6dof-gemeo-digital](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital) (repositório privado).
 
 <!-- REFERENCIAS
 [@gebru2021]: GEBRU, T. et al. Datasheets for datasets. Communications of the ACM, v. 64, n. 12, p. 86-92, 2021.

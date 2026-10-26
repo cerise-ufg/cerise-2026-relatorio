@@ -61,7 +61,7 @@ Tabela: Acurácia@60 mm em 2025 (Panda) e 2026 (servo6dof); robôs, escalas, câ
 
 Os valores de RoboPose e HPRE reproduzem os do relatório de 2025; os do modelo de 2025 foram conferidos no arquivo de resultados do treino de 2025. As principais limitações desta etapa são: dados exclusivamente sintéticos; uso do estado final do treino de 2025 em vez dos pesos da época de 75,4%; baseline com menos épocas que a transferência; etapa 1 treinada num subconjunto (o modelo final e as avaliações usaram o dataset completo); e orçamento de treino de cerca de uma hora em GPU compartilhada.
 
-Código e evidências: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/EduardoCaixeta/cerise-2026-pose-servo6dof)
+Código e evidências: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/cerise-ufg/cerise-2026-pose-servo6dof)
 
 ## Avaliação de precisão e robustez do modelo de pose
 
@@ -132,7 +132,7 @@ O modelo final foi empacotado num módulo de inferência (`PosePredictor`) desti
 
 As principais limitações da avaliação são: medições apenas em dados sintéticos e com duas câmeras fixas, sem verificação em imagens reais do braço físico; a junta 5 não é observável com os keypoints escolhidos e a abertura da garra não é estimada; o experimento entre câmeras usou um subconjunto dos dados; a robustez foi medida num subconjunto de 400 imagens; e a latência foi medida em GPU compartilhada. Como próximos passos, propõem-se adicionar keypoints nas pontas das pinças, randomizar pose de câmera, iluminação e texturas na geração de dados, incluir ruído, desfoque e compressão nas augmentations, capturar imagens reais para aplicar a etapa autossupervisionada de 2025 e reduzir a latência do ramo de profundidade.
 
-Código e evidências: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/EduardoCaixeta/cerise-2026-pose-servo6dof)
+Código e evidências: [repositório cerise-2026-pose-servo6dof (privado)](https://github.com/cerise-ufg/cerise-2026-pose-servo6dof)
 
 <!-- REFERENCIAS
 [@hpe]: BAN, S.; FAN, J.; MA, X.; ZHU, W.; QIAO, Y.; WANG, Y. Real-time holistic robot pose estimation with unknown states. In: EUROPEAN CONFERENCE ON COMPUTER VISION (ECCV), 2024. Anais [...]. Cham: Springer, 2024.

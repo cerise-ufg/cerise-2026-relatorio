@@ -59,7 +59,7 @@ A ablação (cenários UFG e U, frota heterogênea, N = 2 a 6) mostrou que a pes
 
 Os resultados indicam que, em frotas heterogêneas, a ponderação pela capacidade de cobertura e, sobretudo, o ajuste dos pesos pelo tempo estimado de missão são determinantes para o balanceamento. As principais limitações são: (i) os tempos de missão derivam de um modelo cinemático simples (velocidade constante, penalidade fixa por curva, energia proporcional ao tempo e ausência de vento), não calibrado com voos; (ii) a validação foi feita apenas em planta, sem SITL nem voo real; e (iii) o k-means/Voronoi foi usado sem ponderação, e uma versão ponderada (diagrama de potência) reduziria a diferença em frotas heterogêneas.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Colaboração entre drones e realocação dinâmica
 
@@ -114,7 +114,7 @@ Em SF9, configuração padrão do firmware da frente LoRa, todos os quadros fica
 
 A repartição é mais vantajosa quando a falha ocorre cedo e a área órfã é grande, pois redistribui o trabalho de forma equilibrada e exige menos mensagens; o leilão é competitivo para áreas órfãs pequenas, o que sugere uma política híbrida. A simulação assume detecção da falha em 3 s e canal sem perdas, e o custo LoRa foi contado sem ACKs nem retransmissões. A extensão AREA_POLY, TASK_BID e TASK_AWARD ainda precisa ser incorporada ao `cerise_proto`, e a realocação não foi testada de ponta a ponta com os módulos de rádio nem em voo; a política híbrida não foi implementada.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 ## Detecção e contagem de pessoas em imagens aéreas
 
@@ -175,7 +175,7 @@ A adequação física dos drones não foi executada por depender de hardware. Al
 
 O ajuste fino foi curto (5 épocas) e o VisDrone contém majoritariamente imagens oblíquas de cenas urbanas, distintas das imagens em nádir a 40 m previstas para o campus; o mAP50 de 0,316 e a subcontagem de 42,8 % no test-dev indicam limites de generalização. O FP16 não pôde ser usado no GB10 com a versão de PyTorch empregada. A agregação foi validada apenas com pessoas sintéticas e estáticas, e o resultado com o detector medido indica a necessidade de confirmação multivista ou de calibração da contagem antes do uso operacional. Os próximos passos incluem coletar e anotar imagens próprias do campus e treinar por mais épocas.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/EduardoCaixeta/cerise-2026-drones-segmentacao)
+Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
 <!-- REFERENCIAS
 [@kapoutsis2017darp]: KAPOUTSIS, A. C.; CHATZICHRISTOFIS, S. A.; KOSMATOPOULOS, E. B. DARP: divide areas algorithm for optimal multi-robot coverage path planning. Journal of Intelligent & Robotic Systems, v. 86, n. 3-4, p. 663-680, 2017.
