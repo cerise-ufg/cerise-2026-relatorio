@@ -16,7 +16,7 @@ publicadas no Release apenas para download direto (sem clonar o repositório).
 Pela página de Releases do repositório no GitHub, ou com o GitHub CLI:
 
 ```bash
-gh release download v2026.10.26 -R <organizacao>/cerise-2026-relatorio
+gh release download v2026.10.26 -R cerise-ufg/cerise-2026-relatorio
 sha256sum -c SHA256SUMS.txt
 ```
 
