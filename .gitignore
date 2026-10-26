@@ -1,0 +1,13 @@
+# cache e ambientes do Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# saídas locais do gerador (testes e montagem inicial)
+gerador/teste/
+gerador/montagem_inicial/RELATORIO_CERISE_2026.montagem_inicial.md
+
+# arquivos temporários do Word e do LibreOffice
+~$*
+.~lock.*#
