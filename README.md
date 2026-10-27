@@ -9,7 +9,7 @@ CERISE, seções por área de trabalho, figuras (originais e derivadas, com os s
 - **Bolsista:** Eduardo Martins de Carvalho Caixeta (CERISE/EMC/UFG)
 - **Coordenadores:** Prof. Dr. Alisson Assis Cardoso (Navegação Autônoma e Gêmeos Digitais) e
   Prof. Dr. Carlos Galvão Pinheiro Junior (Realidade Aumentada)
-- **Versão do relatório:** 26/10/2026 — 74 páginas, 47 figuras, 33 tabelas e 62 referências
+- **Versão do relatório:** 26/10/2026 — 77 páginas, 47 figuras, 33 tabelas e 62 referências
 
 O relatório cobre as 14 atividades numeradas do plano de trabalho 2026, os itens 1, 3 e 4 do Objetivo 5
 (detecção e contagem de pessoas com drones, módulos de comunicação e adequação dos drones), os algoritmos de
@@ -20,11 +20,12 @@ pôster no CBA 2026) e a participação no CERISE Summit 2026.
 
 | Arquivo | Conteúdo |
 |---|---|
-| [`Relatorio_CERISE_2026_Eduardo_Caixeta.pdf`](Relatorio_CERISE_2026_Eduardo_Caixeta.pdf) | Versão final em PDF (74 páginas) |
+| [`Relatorio_CERISE_2026_Eduardo_Caixeta.pdf`](Relatorio_CERISE_2026_Eduardo_Caixeta.pdf) | Versão final em PDF (77 páginas) |
 | [`Relatorio_CERISE_2026_Eduardo_Caixeta.docx`](Relatorio_CERISE_2026_Eduardo_Caixeta.docx) | Versão final em Word, gerada a partir do Markdown |
 | [`RELATORIO_CERISE_2026.md`](RELATORIO_CERISE_2026.md) | Texto-fonte completo do relatório (formato do gerador) |
 | [`capa.json`](capa.json) | Dados da capa (título do plano, grupos, coordenadores, versão, bolsista) |
 | [`partes_fixas.md`](partes_fixas.md) | Rascunho das partes fixas (introdução e objetivos) |
+| [`roteiro/Roteiro_CERISE_2026_Eduardo_Caixeta.pdf`](roteiro/Roteiro_CERISE_2026_Eduardo_Caixeta.pdf) | Roteiro de Implementação CERISE 2026 (69 páginas): como reproduzir cada frente, com requisitos, comandos, resultados esperados e problemas comuns (também em `.docx` e no texto-fonte `ROTEIRO_CERISE_2026.md`) |
 
 ## Estrutura de pastas
 
@@ -33,6 +34,8 @@ pôster no CBA 2026) e a participação no CERISE Summit 2026.
 ├── RELATORIO_CERISE_2026.md            texto-fonte final
 ├── Relatorio_CERISE_2026_Eduardo_Caixeta.docx / .pdf
 ├── capa.json, partes_fixas.md
+├── roteiro/                            Roteiro de Implementação: texto-fonte, .docx, .pdf, capa
+│                                       (capa_roteiro.json) e um capítulo por frente (secoes/)
 ├── secoes/                             seções condensadas de cada área (01 a 07), com citações [@chave]
 │                                       e bloco de referências, no formato de entrada do integrar_secao.py
 ├── gerador/
@@ -164,7 +167,7 @@ nos repositórios de cada área:
 | `cerise-2026-lora-prototipo` | Protocolo, firmware, testes, simulação e projeto do módulo LoRa |
 | `cerise-2026-drones-segmentacao` | Segmentação de áreas, colaboração entre drones e detecção e contagem de pessoas |
 
-Os links da tabela de anexos do relatório (versão de 26/10/2026) apontam para `github.com/EduardoCaixeta/<repositório>`.
+Os links do relatório apontam para os repositórios da organização ([`github.com/cerise-ufg`](https://github.com/cerise-ufg)). Cada repositório de código traz, no arquivo `ROTEIRO.md`, a parte do roteiro de implementação da sua frente; o documento completo está em [`roteiro/`](roteiro/).
 
 ## Artefatos em Releases
 

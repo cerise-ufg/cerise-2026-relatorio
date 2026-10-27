@@ -29,7 +29,7 @@ Os objetivos específicos para a consecução do plano de trabalho são:
 
 # Atividades realizadas
 
-As atividades foram organizadas em seis frentes (geração 3D, servidor e aplicativo, dataset e gêmeo digital do braço, estimação de pose, comunicação LoRa e drones), cada uma com código em repositório privado no GitHub, resultados medidos em arquivos JSON e CSV e evidências gráficas. Os experimentos com GPU, o servidor de geração 3D e as simulações do braço foram executados na estação NVIDIA DGX Spark do laboratório (GPU GB10, CPU aarch64 e 128 GB de memória unificada), compartilhada com serviços de IA em produção; a compilação iOS usou um Mac mini M4, e as compilações Android e o emulador, um notebook com Windows. Na numeração do plano de trabalho, foram realizadas:
+As atividades foram organizadas em seis frentes (geração 3D, servidor e aplicativo, dataset e gêmeo digital do braço, estimação de pose, comunicação LoRa e drones), cada uma com código em repositório privado no GitHub, resultados medidos em arquivos JSON e CSV e evidências gráficas. Os experimentos com GPU, o servidor de geração 3D e as simulações do braço foram executados na estação NVIDIA DGX Spark do laboratório (superchip GB10, com GPU Blackwell e CPU aarch64, e 128 GB de memória unificada), compartilhada com serviços de IA em produção; a compilação iOS usou um Mac mini M4, e as compilações Android e o emulador, um notebook com Windows. Na numeração do plano de trabalho, foram realizadas:
 
 - Atividade 1: comparação de 10 modelos abertos de geração 3D texturizada, com 6 medidos em até 13 objetos do Google Scanned Objects (subconjuntos de 4 e 2 objetos para o Hunyuan3D-2.0 e o 2.1), e seleção do Hunyuan3D-2 Turbo;
 - Atividade 2: integração do aplicativo CERISE AR 1.1.0 ao servidor real de geração 3D, validada no emulador Android, e compilação para o Simulador iOS;
@@ -43,8 +43,10 @@ As atividades foram organizadas em seis frentes (geração 3D, servidor e aplica
 - Atividades 11 e 12: modelo digital do braço e gêmeo digital com o modelo de pose, em simulação;
 - Atividade 13 e algoritmos de colaboração: segmentação da área entre drones e realocação dinâmica, em simulação 2D;
 - Item 1 do Objetivo 5: detecção de pessoas em imagens aéreas e agregação das contagens entre drones, com validação da contagem em vídeos reais de drone (VisDrone2019-MOT) e simulação 3D fotorrealista no NVIDIA Isaac Sim, com quatro drones percorrendo a área da UFG e 80 pessoas animadas;
-- Atividade 14: elaboração deste relatório e publicação de dois artigos científicos sobre a estimação de pose de braço robótico desenvolvida no plano, no MEDER 2026 e no CBA 2026, este último com apresentação de pôster;
+- Atividade 14: elaboração deste relatório e publicação de dois artigos científicos sobre a estimação de pose de braço robótico desenvolvida no projeto em 2025, no MEDER 2026 e no CBA 2026, este último com apresentação de pôster;
 - Participação no CERISE Summit 2026 (18 de setembro de 2026), evento de extensão do CERISE cadastrado na PROEX UFG sob o código EV308-2026, como expositor das apresentações de projetos e protótipos e como monitor do evento (10 horas em cada função).
+
+Os códigos implementados estão nos repositórios da organização cerise-ufg do GitHub, listados nos Anexos. Os vídeos dos protótipos estão nas pastas de evidências desses repositórios: a simulação no Isaac Sim com quatro drones contando pessoas e o close-up da simulação, na pasta [simulacao/evidencias](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao/tree/main/simulacao/evidencias), e a contagem em vídeos reais de drone, na pasta [validacao_videos/evidencias](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao/tree/main/validacao_videos/evidencias), ambas do repositório cerise-2026-drones-segmentacao; e a varredura de poses do gêmeo digital do braço, na pasta [evidencias](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital/tree/main/evidencias) do repositório cerise-2026-servo6dof-gemeo-digital. Para implementação dos protótipos, pode-se seguir o roteiro disponível na [pasta Roteiros do CERISE](https://drive.google.com/drive/folders/1qiLqiGBkxPcD4h62EyZO-sAeQxQ4lQuS), no documento Roteiro de Implementação CERISE 2026, que traz, para cada frente, os requisitos, a obtenção do código e dos dados, os comandos de cada etapa, os resultados esperados e os problemas comuns. A parte de cada frente também está no arquivo ROTEIRO.md do repositório de código correspondente.
 
 # Resultados obtidos
 
@@ -52,13 +54,13 @@ Nesta seção, é apresentado um resumo dos resultados obtidos:
 
 1) Análise comparativa e seleção do modelo de geração 3D: o Hunyuan3D-2 Turbo foi selecionado, com a melhor geometria medida (distância de Chamfer de 0,032 e F-score@0,05 de 0,951);
 
-2) Otimização do modelo integrado e desempenho: redução de cerca de 38 % no tempo de geração e três *presets* com tempos medianos de 23,9 s, 30,4 s e 82,1 s;
+2) Otimização do modelo integrado e desempenho: redução de cerca de 38 % no tempo de geração e três *presets* com tempos medianos de 23,9 s, 30,4 s e 82,1 s, limites superiores medidos com a GPU compartilhada;
 
 3) Validação dos objetos 3D gerados: 58 de 58 testes automatizados aprovados e 7 de 7 arquivos GLB carregados nos visualizadores;
 
 4) Servidor de geração 3D: taxa de erro reduzida de 90,9 % para zero e latência p95 até 22 % menor com 16 clientes simultâneos;
 
-5) Aplicativo CERISE AR com geração de objetos 3D texturizados: fluxo da foto ao modelo texturizado validado no emulador contra o servidor real, em 13,5 s a 31,5 s sem fila;
+5) Aplicativo CERISE AR com geração de objetos 3D texturizados: fluxo da foto ao modelo texturizado validado no emulador contra o servidor real, em 13,5 s (*preset* rápido) a 31,5 s (*preset* alto) sem fila;
 
 6) Adequação do aplicativo para a Play Store: pacote 1.1.0 pronto e verificado, com publicação pendente;
 
@@ -66,7 +68,7 @@ Nesta seção, é apresentado um resumo dos resultados obtidos:
 
 8) Aplicação do modelo de pose de 2025 ao novo dataset: acurácia ADD@60 mm de 68,0 % com transferência de aprendizado, contra 32,8 % da linha de base inicializada no ImageNet;
 
-9) Avaliação de precisão e robustez do modelo de pose: robustez a brilho e contraste, sensibilidade a ruído, desfoque e compressão e latência de 162,5 ms por imagem;
+9) Avaliação de precisão e robustez do modelo de pose: robustez a brilho e contraste; sensibilidade a ruído, desfoque e compressão; e latência de 162,5 ms por imagem;
 
 10) Modelo digital do braço robótico: cinemática validada contra o ROS 2 e IoU de silhueta de 0,950 e 0,938 nas duas câmeras, sem calibração de massas e inércias;
 
@@ -98,7 +100,7 @@ Esta etapa corresponde à Atividade 1 do Objetivo 1, que prevê a análise compa
 
 Os experimentos foram executados na estação NVIDIA DGX Spark (GB10), com GPU de arquitetura Blackwell (sm_121), CPU aarch64 de 20 núcleos e 128 GB de memória unificada, num contêiner derivado de `nvcr.io/nvidia/pytorch:26.05-py3` (PyTorch 2.12, CUDA 13.2), com o alocador limitado a 24 GB. A estação é de produção e foi compartilhada durante todas as medições; por isso, os tempos absolutos devem ser lidos como limites superiores.
 
-O conjunto de avaliação reuniu 13 objetos do Google Scanned Objects [5] (licença CC-BY 4.0), com malha escaneada de referência, renderizados com nvdiffrast [6] numa vista de entrada de 1024×1024 px e em três vistas não observadas pelos modelos. Na geometria, foram calculados a distância de Chamfer e o F-score a τ = 0,05 e 0,1, após alinhamento por ICP com escala uniforme [7]; na aparência, a similaridade de cosseno CLIP ViT-L/14 [8] entre a entrada e a imagem renderizada do resultado (CLIP entrada) e entre resultado e referência nas vistas novas (CLIP vistas novas). Foram medidos ainda a mediana do tempo por objeto, com os modelos já carregados, e o pico de memória. Um autoteste do alinhamento indicou piso de erro com Chamfer médio de 0,0042 e F-score@0,05 mínimo de 0,976; sua saída permanece na estação e não foi copiada para o repositório.
+O conjunto de avaliação reuniu 13 objetos do Google Scanned Objects (GSO) [5] (licença CC-BY 4.0), com malha escaneada de referência, renderizados com nvdiffrast [6] numa vista de entrada de 1024×1024 px e em três vistas não observadas pelos modelos. Na geometria, foram calculados a distância de Chamfer e o F-score a τ = 0,05 e 0,1, após alinhamento por ICP com escala uniforme [7]; na aparência, a similaridade de cosseno CLIP ViT-L/14 [8] entre a entrada e a imagem renderizada do resultado (CLIP entrada) e entre resultado e referência nas vistas novas (CLIP vistas novas). Foram medidos ainda a mediana do tempo por objeto, com os modelos já carregados, e o pico de memória. Um autoteste do alinhamento indicou piso de erro com Chamfer médio de 0,0042 e F-score@0,05 mínimo de 0,976; sua saída permanece na estação e não foi copiada para o repositório.
 
 ### Levantamento da literatura
 
@@ -108,17 +110,17 @@ Tabela: Modelos abertos de geração 3D texturizada a partir de imagem e situaç
 | Modelo (organização, ano) | Licença | Saída | Situação no GB10 |
 |---|---|---|---|
 | Hunyuan3D-2.0 [9] (Tencent, 2025) | Tencent Hunyuan 3D 2.0 Community | malha e textura UV RGB | instalado e medido |
-| Hunyuan3D-2mini Turbo (Tencent, 2025) | idem | malha e textura UV RGB | instalado e medido |
+| Hunyuan3D-2mini Turbo [9] (Tencent, 2025) | idem | malha e textura UV RGB | instalado e medido |
 | Hunyuan3D-2 Turbo e FlashVDM [10] (Tencent, 2025) | idem | malha e textura UV RGB | instalado e medido |
 | Hunyuan3D-2.1 [11] (Tencent, 2025) | Tencent Hunyuan 3D 2.1 Community | malha e materiais PBR | instalado com adaptações e medido |
 | TRELLIS [12] (Microsoft, 2024) | MIT | gaussianas, campos de radiância ou malha | bloqueado: dependências sem versão aarch64 |
-| TRELLIS.2 (Microsoft, 2025) | MIT | malha O-Voxel e PBR | bloqueado: componente de acesso restrito |
+| TRELLIS.2, sucessor do TRELLIS [12] (Microsoft, 2025) | MIT | malha O-Voxel e PBR | bloqueado: componente de acesso restrito |
 | TripoSR [13] (Stability AI e Tripo AI, 2024) | MIT | malha com cor por vértice | instalado e medido |
 | Stable Fast 3D [14] (Stability AI, 2024) | Stability AI Community | malha com UV, textura e material | bloqueado: pesos de acesso restrito |
 | SPAR3D [15] (Stability AI, 2025) | Stability AI Community | nuvem de pontos e malha texturizada | bloqueado: pesos de acesso restrito |
 | InstantMesh [16] (TencentARC, 2024) | Apache-2.0 | malha com cor por vértice ou textura | instalado e medido |
 
-O TRELLIS depende de `spconv` e `cumm`, sem distribuição para linux-aarch64 no PyPI (`resultados/trellis_bloqueio_pypi.txt`). O TRELLIS.2 usa extensões CUDA próprias e o codificador DINOv3, de acesso restrito, e os pesos do Stable Fast 3D e do SPAR3D também exigem login no Hugging Face e aceite da licença pelo bolsista, etapa ainda pendente.
+O TRELLIS depende de `spconv` e `cumm`, sem distribuição para linux-aarch64 no PyPI (`resultados/trellis_bloqueio_pypi.txt`). O TRELLIS.2 usa extensões CUDA próprias e o codificador DINOv3, de acesso restrito, e os pesos do Stable Fast 3D e do SPAR3D também exigem login no Hugging Face e aceite da licença, etapa ainda não realizada.
 
 ### Avaliação experimental
 
@@ -129,20 +131,20 @@ Tabela: Avaliação no GB10 com os modelos carregados (n = objetos avaliados; te
 |---|---|---|---|---|---|
 | TripoSR | 13 | 0,9 | 4,2 | 0,042 / 0,904 | 0,849 / 0,809 |
 | InstantMesh | 13 | 16,5 | 23,2 | 0,046 / 0,893 | 0,844 / 0,836 |
-| Hunyuan3D-2mini-Turbo | 13 | 65,8 | 13,6 | 0,035 / 0,930 | 0,893 / 0,859 |
-| **Hunyuan3D-2-Turbo** | 13 | 68,8 | 14,6 | **0,032 / 0,951** | 0,907 / 0,854 |
+| Hunyuan3D-2mini Turbo | 13 | 65,8 | 13,6 | 0,035 / 0,930 | 0,893 / 0,859 |
+| **Hunyuan3D-2 Turbo** | 13 | 68,8 | 14,6 | **0,032 / 0,951** | 0,907 / 0,854 |
 | Hunyuan3D-2.0 (padrão) | 4 | 229,5 | 14,5 | 0,039 / 0,918 | **0,933 / 0,884** |
 | Hunyuan3D-2.1 (PBR) | 2 | 242,9 | 13,8 | 0,032 / 0,949 | 0,883 / 0,878 |
 
-![Qualidade em função do tempo mediano por objeto (escala logarítmica): à esquerda, F-score@0,1 da geometria; à direita, similaridade CLIP entre a entrada e a imagem renderizada do resultado; os rótulos 2-Turbo, 2mini-Turbo, 2.0 e 2.1 referem-se às variantes do Hunyuan3D, e n indica os modelos medidos em subconjuntos](E:/CERISE/RELATORIOS/2026/figuras/a1_qualidade_vs_tempo_pt.png){w=14}
+![Qualidade em função do tempo mediano por objeto (escala logarítmica): à esquerda, F-score@0,1 da geometria; à direita, similaridade CLIP entre a entrada e a imagem renderizada do resultado; os rótulos 2-Turbo, 2mini-Turbo, 2.0 e 2.1 referem-se às variantes do Hunyuan3D, e n indica o número de objetos dos modelos medidos em subconjuntos](E:/CERISE/RELATORIOS/2026/figuras/a1_qualidade_vs_tempo_pt.png){w=14}
 
-![Comparação qualitativa numa vista não observada pelos modelos (azimute 210°): entrada, referência escaneada e resultado de cada modelo alinhado à referência; "não medido" indica objeto fora do subconjunto daquele modelo](E:/CERISE/FRENTES/REALIDADE AUMENTADA/GERACAO_3D/evidencias/a1_grade_vista_nova.png){w=10}
+![Comparação qualitativa numa vista não observada pelos modelos (azimute 210°): entrada, referência escaneada e resultado de cada modelo alinhado à referência; “não medido” indica objeto fora do subconjunto daquele modelo](E:/CERISE/FRENTES/REALIDADE AUMENTADA/GERACAO_3D/evidencias/a1_grade_vista_nova.png){w=10}
 
 ### Discussão e seleção
 
-O Hunyuan3D-2-Turbo obteve a melhor geometria no conjunto completo (Chamfer 0,032; F-score@0,05 de 0,951 e F-score@0,1 de 0,992), e o Hunyuan3D-2.1 alcançou valores equivalentes nos dois objetos em que foi medido. O TripoSR foi duas ordens de grandeza mais rápido (0,9 s), mas teve geometria inferior e aparência limitada à cor por vértice. Na configuração avaliada, o InstantMesh também produziu apenas cor por vértice e atingiu 23,2 GB de pico; seu F-score@0,05 caiu para 0,766 no subconjunto que inclui a águia e a tartaruga, contra 0,913 no ônibus e na caneca, queda concentrada na águia, cujas asas finas colapsam. Na aparência, o Hunyuan3D-2.0 com o módulo de textura completo obteve os maiores valores de CLIP (0,933 e 0,884), à custa de 229,5 s por objeto, e o CLIP do 2.1 ficou subestimado, porque o renderizador da avaliação não aplica sombreamento PBR. A comparação de tempos é apenas indicativa: os modelos turbo foram medidos com média de carga da CPU próxima de 39, e o 2.0 e o 2.1, com carga entre 3 e 4; a mesma configuração Turbo levou 28,7 s por objeto na série de otimização, com a máquina parcialmente livre.
+O Hunyuan3D-2 Turbo obteve a melhor geometria no conjunto completo (Chamfer 0,032; F-score@0,05 de 0,951 e F-score@0,1 de 0,992), e o Hunyuan3D-2.1 alcançou valores equivalentes nos dois objetos em que foi medido. O TripoSR foi cerca de 75 vezes mais rápido que o Hunyuan3D-2 Turbo (0,9 s contra 68,8 s), mas teve geometria inferior e aparência limitada à cor por vértice. Na configuração avaliada, o InstantMesh também produziu apenas cor por vértice e atingiu 23,2 GB de pico; seu F-score@0,05 caiu para 0,766 no subconjunto que inclui a águia e a tartaruga, contra 0,913 no ônibus e na caneca, queda concentrada na águia, cujas asas finas colapsam. Na aparência, o Hunyuan3D-2.0 com o módulo de textura completo obteve os maiores valores de CLIP (0,933 e 0,884), à custa de 229,5 s por objeto, e o CLIP do 2.1 ficou subestimado, porque o renderizador da avaliação não aplica sombreamento PBR. A comparação de tempos é apenas indicativa: os modelos turbo foram medidos com média de carga da CPU próxima de 39, e o 2.0 e o 2.1, com carga entre 3 e 4; a mesma configuração Turbo levou 28,7 s por objeto na série sequencial de otimização (7 objetos), com a máquina parcialmente livre, e 63,9 s na série intercalada (4 objetos), apresentada na seção seguinte.
 
-Foi selecionado o **Hunyuan3D-2 Turbo** (forma destilada com FlashVDM, textura Paint-v2-0-Turbo e remoção de iluminação), pela melhor geometria medida no conjunto completo; pela textura UV real, requisito para boa aparência em RA; pelo pico de cerca de 14,5 GB, compatível com a coexistência com os serviços de produção; e pela licença, que permite o uso no Brasil, embora exclua a União Europeia, o Reino Unido e a Coreia do Sul e exija licença própria acima de 1 milhão de usuários mensais. O TripoSR (MIT) fica como alternativa de licença permissiva, e o Hunyuan3D-2.1 (PBR), como evolução futura com GPU dedicada.
+Foi selecionado o **Hunyuan3D-2 Turbo** (forma destilada com FlashVDM, textura Paint-v2-0-Turbo e remoção de iluminação), pela melhor geometria medida no conjunto completo; pela textura UV real, requisito para boa aparência em RA; pelo pico de 14,6 GB, compatível com a coexistência com os serviços de produção; e pela licença, que permite o uso no Brasil, embora exclua a União Europeia, o Reino Unido e a Coreia do Sul e exija licença própria acima de 1 milhão de usuários mensais. O TripoSR (MIT) fica como alternativa de licença permissiva, e o Hunyuan3D-2.1 (PBR), como evolução futura com GPU dedicada.
 
 ## Otimização do modelo integrado e desempenho
 
@@ -171,8 +173,8 @@ Os principais resultados foram os seguintes:
 - O **pós-processamento rápido** (descarte de componentes com menos de 1 % da área do maior e decimação com `fast-simplification`) trouxe a maior economia: a limpeza caiu de 33,1 s para 6,2 s e o total, cerca de 38 % (razão mediana de 0,62 na série intercalada e de 0,55 na sequencial), com geometria inalterada e CLIP de entrada 0,009 menor.
 - A **octree 256** reduziu o total em cerca de 36 % sem perda mensurável de qualidade.
 - O orçamento de faces e a textura de 1024 px praticamente não alteraram o tempo, mas reduziram o GLB bruto (de 3,7 MB para 2,8 MB com 10 mil faces e para 1,9 MB com textura de 1024 px).
-- **10 passos** custaram 10 % a mais de tempo, sem ganho geométrico, e elevaram o CLIP das vistas novas em 0,026.
-- O **módulo de textura completo** elevou o tempo da textura de 12,0 s para 51,7 s na série sequencial, mas foi a única variante que melhorou claramente as partes ocultas (CLIP vistas novas de 0,846 para 0,893).
+- **10 passos** custaram 10 % a mais de tempo, sem ganho geométrico, e elevaram o CLIP das vistas novas de 0,837 para 0,864.
+- O **módulo de textura completo** elevou o tempo da textura de 12,0 s para 51,7 s na série sequencial, mas foi a variante que mais melhorou as partes ocultas (CLIP vistas novas de 0,846 para 0,893, contra 0,864 com 10 passos na mesma série).
 - A **forma em bf16** teve qualidade equivalente e não trouxe ganho de tempo, e o fp16 foi mantido; o `torch.compile` não foi avaliado.
 
 ### Presets e pipeline empacotado
@@ -186,7 +188,7 @@ Tabela: Presets medidos no pipeline empacotado (19 entradas; GLB com textura PNG
 | padrão | 30,4 | 29,8 | 26,8–76,6 | 14,5 | 2,01 |
 | alto | 82,1 | 56,7 | 53,5–104,5 | 14,5 | 6,14 |
 
-A geometria foi a mesma nos três *presets* (F-score@0,05 de 0,951 no GSO); o CLIP de entrada foi de 0,890, 0,894 e 0,922 e o das vistas novas, de 0,840, 0,851 e 0,876 (rápido, padrão e alto). A carga a frio do pipeline levou 115 s e o aquecimento, 79 s (107 s e 118 s no *preset* alto), o que justifica manter os modelos residentes no servidor. A dispersão dos tempos reflete a variação de ocupação da GPU, como mostra a decomposição por etapa a seguir.
+A qualidade geométrica foi a mesma nos três *presets* (F-score@0,05 de 0,951 no GSO); o CLIP de entrada foi de 0,890, 0,894 e 0,922 e o das vistas novas, de 0,840, 0,851 e 0,876 (rápido, padrão e alto). A carga a frio do pipeline levou 115 s e o aquecimento, 79 s (107 s e 118 s no *preset* alto), o que justifica manter os modelos residentes no servidor. A dispersão dos tempos reflete a variação de ocupação da GPU, como mostra a decomposição por etapa a seguir.
 
 ![Tempo médio por objeto e por etapa dos três presets no pipeline empacotado; no preset alto predomina a difusão multivista do módulo de textura completo](E:/CERISE/FRENTES/REALIDADE AUMENTADA/GERACAO_3D/evidencias/presets_tempo_por_etapa.png){w=13}
 
@@ -194,7 +196,7 @@ O pós-processamento para o celular assenta o objeto em y = 0 e o centraliza em 
 
 ### Correção da compressão da textura e limitações
 
-O teste ponta a ponta do servidor, em 26/10/2026, revelou que a recodificação da textura em JPEG não ocorreu nas rodadas desta subseção: o pós-processamento chamava `gltf-transform jpeg` sem a opção `--formats`, e, na versão 4.5 da ferramenta, o padrão recomprime apenas texturas que já são JPEG. Os tamanhos de GLB da tabela de *presets* estão, portanto, superestimados, e a estimativa de que a compressão geométrica economizaria apenas cerca de 21 % deixou de valer; as conclusões de tempo e de geometria não se alteram. Com a correção (`--formats "*"`), aplicada no servidor e no repositório, a mesma fotografia de teste passou de 2,97 MB para 0,72 MB (−76 %) no *preset* padrão e de 2,60 MB para 0,44 MB (−83 %) no rápido, sem alteração mensurável no tempo de geração. Falta reconstruir a imagem Docker com a correção e refazer a rodada de *presets*, de preferência numa janela ociosa da GPU.
+O teste ponta a ponta do servidor, em 26/10/2026, revelou que a recodificação da textura em JPEG não ocorreu nas rodadas da subseção anterior: o pós-processamento omitia a opção `--formats` ao chamar `gltf-transform jpeg`, e, na versão 4.5 da ferramenta, o padrão recomprime apenas texturas que já são JPEG. Os tamanhos de GLB da tabela de *presets* estão, portanto, superestimados; as conclusões de tempo e de geometria não se alteram. Com a correção (`--formats "*"`), aplicada no servidor e no repositório, a mesma fotografia de teste passou de 2,97 MB para 0,72 MB (−76 %) no *preset* padrão e de 2,60 MB para 0,44 MB (−83 %) no rápido, sem alteração mensurável no tempo de geração. Falta reconstruir a imagem Docker com a correção e refazer a rodada de *presets*, de preferência numa janela ociosa da GPU.
 
 ## Validação dos objetos 3D gerados
 
@@ -208,7 +210,7 @@ Tabela: Verificações automatizadas do pipeline empacotado (9 GLBs: 3 entradas 
 | Verificação | Critério | Resultado |
 |---|---|---|
 | Validade do arquivo | Khronos glTF-Validator sem erros | aprovado |
-| Material | material PBR com `baseColorTexture` | aprovado |
+| Material | material glTF (`pbrMetallicRoughness`) com `baseColorTexture` | aprovado |
 | Compatibilidade com o app | sem Draco, meshopt ou KTX2; textura JPEG ou PNG | aprovado |
 | Orçamento de faces | até 10 mil, 20 mil e 40 mil faces conforme o preset | aprovado |
 | Escala e posição | maior dimensão de 0,30 m, base em y = 0, centrado em x e z | aprovado |
@@ -252,9 +254,9 @@ A nova arquitetura separa a recepção dos pedidos do processamento na GPU, conf
 
 ### Testes de carga e resultados
 
-Os testes foram executados em 26/10/2026 com os serviços de produção ativos na mesma GPU. O cliente de carga (asyncio e httpx) rodou no próprio hospedeiro, sem latência de rede, com 64 imagens sem repetição dentro de cada cenário. O cenário principal consistiu em rajadas de 1, 2, 4, 8 e 16 clientes simultâneos, totalizando 33 *jobs* do *preset* rápido por configuração, com sondas de leitura paralelas para medir a responsividade.
+Os testes foram executados em 26/10/2026 com os serviços de produção ativos na mesma GPU. O cliente de carga (asyncio e httpx) rodou no próprio hospedeiro, sem latência de rede, com 64 imagens sem repetição dentro de cada cenário. O cenário principal consistiu em três *jobs* em sequência com 1 cliente e em rajadas de 2, 4, 8 e 16 clientes simultâneos, cada um enviando um *job*, totalizando 33 *jobs* do *preset* rápido por configuração, com sondas de leitura paralelas para medir a responsividade.
 
-Tabela: Resumo por configuração (33 jobs do preset rápido em rajadas de 1 a 16 clientes; latência do envio ao GLB baixado)
+Tabela: Resumo por configuração (33 jobs do preset rápido: 3 em sequência com 1 cliente e rajadas de 2 a 16 clientes; latência do envio ao GLB baixado)
 | Configuração | Atendidos | Latência p50 / p95 (s) | p95 com 16 clientes (s) | Vazão com 16 clientes (jobs/min) | Leituras com GPU ocupada, p95 / p99 (ms) |
 |---|---|---|---|---|---|
 | 2025, sem trava | 3/33 | 12,3 / 12,5 (só 1 cliente) | sem sucesso | 0 | 102,4 / 213,0 |
@@ -266,7 +268,7 @@ A taxa de erro caiu de 90,9 % (30 de 33 pedidos na arquitetura de 2025 sem trava
 
 ![Latência ponta a ponta (p50 e p95), espera na fila, vazão e taxa de erro em função do número de clientes simultâneos para as quatro configurações](E:/CERISE/FRENTES/REALIDADE AUMENTADA/GERACAO_3D/evidencias/srv_carga_latencia_vazao_erros.png){w=12}
 
-Tabela: Cenários adicionais na configuração de produção (1 worker)
+Tabela: Cenários adicionais na configuração de produção (1 *worker*)
 | Cenário | Pedidos | Atendidos | Execuções na GPU | Resultado |
 |---|---|---|---|---|
 | Reenvio de imagens já processadas (cache) | 10 | 10 | 0 | 0,02 s por pedido |
@@ -279,7 +281,7 @@ A prioridade reduziu em 34 % a latência mediana dos *jobs* rápidos, com média
 
 ### Discussão e limitações
 
-O gargalo dominante é a própria GPU: com 2 *slots*, a execução mediana de cada *job* subiu de 11,9 s para 21,0 s, enquanto a espera nas travas foi de 0,05 a 0,2 s por componente, razão pela qual dois *slots* rendem só 13 % mais vazão. A capacidade sustentada medida é de cerca de 5 *jobs*/min no *preset* rápido, e um objetivo de p95 de 1 min comporta rajadas de 4 a 5 pedidos (p95 de 46,7 s com 4 clientes e de 93,5 s com 8). O pico por *job* foi de 18,9 GiB alocados, abaixo do teto de 24 GiB. Os 18 testes automatizados do servidor, com motor simulado, foram aprovados, e, em dois desligamentos não planejados da estação, os contêineres retornaram automaticamente com a fila preservada. Como limitações, as configurações foram medidas em sequência numa máquina compartilhada; o cenário misto não incluiu o *preset* alto; a escala para várias GPUs foi apenas projetada; o monitoramento das métricas não foi ligado; e o servidor não foi exposto publicamente, havendo uma proposta de exposição documentada no repositório, que aguarda decisão.
+O gargalo dominante é a própria GPU: com 2 *slots*, a execução mediana de cada *job* subiu de 11,9 s para 21,0 s, enquanto a espera nas travas foi de 0,05 a 0,2 s por componente, razão pela qual dois *slots* rendem só 13 % mais vazão. A capacidade sustentada medida é de cerca de 5 *jobs*/min no *preset* rápido, e um objetivo de p95 de 1 min comporta rajadas de 4 a 5 pedidos (p95 de 46,7 s com 4 clientes e de 93,5 s com 8). O pico por *job* foi de 18,9 GB alocados, abaixo do teto de 24 GB. Os 18 testes automatizados do servidor, com motor simulado, foram aprovados, e, em dois desligamentos não planejados da estação, os contêineres retornaram automaticamente com a fila preservada. Como limitações, as configurações foram medidas em sequência numa máquina compartilhada; o cenário misto não incluiu o *preset* alto; a escala para várias GPUs foi apenas projetada; o monitoramento das métricas não foi ligado; e o servidor não foi exposto publicamente, havendo uma proposta de exposição documentada no repositório, que aguarda decisão.
 
 Código e evidências da geração 3D e do servidor: [repositório cerise-2026-gen3d (privado)](https://github.com/cerise-ufg/cerise-2026-gen3d)
 
@@ -289,13 +291,13 @@ Esta etapa corresponde à Atividade 2 do Objetivo 1: integrar o modelo seleciona
 
 ### Implementação
 
-Aplicativo e servidor foram desenvolvidos em paralelo sobre um contrato REST fixado previamente (`/api/v1`), com um servidor simulado reproduzindo o contrato enquanto o real não estava disponível. No aplicativo, destacam-se o cliente da API com envio multipart, progresso, tempo limite e cancelamento; o gerenciador de *jobs* com *polling*, recuo exponencial em falhas de rede e retomada ao reabrir o aplicativo; a leitura da caixa envolvente do GLB para normalizar a escala na RA; o visualizador 3D sem rede, com o `<model-viewer>` [20] numa WebView; e a RA com ViroReact [21], aberta somente após a confirmação de suporte do ARCore/ARKit. No servidor, o motor entrega o GLB no formato exigido pelo aplicativo (glTF 2.0 [22], apoiado em y = 0, maior dimensão de 0,30 m, textura JPEG e sem Draco, meshopt ou KTX2), e a rota legada de 2025 passou a devolver um modelo efetivamente gerado. Num teste a partir de um computador externo, uma foto CC0 no *preset* padrão produziu o GLB em 16,1 s (15,3 s de GPU), aprovado no Khronos glTF-Validator sem erros nem avisos; esse teste revelou o defeito da textura descrito na subseção de otimização do modelo.
+Aplicativo e servidor foram desenvolvidos em paralelo sobre um contrato REST fixado previamente (`/api/v1`), com um servidor simulado reproduzindo o contrato enquanto o real não estava disponível. No aplicativo, destacam-se o cliente da API com envio multipart, progresso, tempo limite e cancelamento; o gerenciador de *jobs* com *polling*, recuo exponencial em falhas de rede e retomada ao reabrir o aplicativo; a leitura da caixa envolvente do GLB para normalizar a escala na RA; o visualizador 3D sem rede, com o `<model-viewer>` [20] numa WebView; e a RA com ViroReact [21], aberta somente após a confirmação de suporte do ARCore/ARKit. No servidor, o motor entrega o GLB no formato exigido pelo aplicativo (glTF 2.0 [22], apoiado em y = 0, maior dimensão de 0,30 m, textura JPEG e sem Draco, meshopt ou KTX2), e a rota legada de 2025 passou a devolver um modelo efetivamente gerado. Num teste a partir de um computador externo, por túnel SSH, uma foto CC0 no *preset* padrão produziu o GLB em 16,1 s (15,3 s de GPU), aprovado no Khronos glTF-Validator sem erros nem avisos; esse teste revelou o defeito da textura descrito na subseção de otimização do modelo.
 
 ### Validação ponta a ponta com o servidor real
 
 A integração foi validada no emulador Android 16 (API 36, x86_64 com tradução ARM), que alcançou o servidor por encaminhamento SSH local, sem exposição pública. Foram usadas fotografias reais CC0 de objetos (pato de borracha, bule de prata e estatuetas de gato e de burro), escolhidas pelo seletor de fotos do sistema, e não fotografias tiradas pela câmera de um celular. Para observar a fila, um segundo cliente enviou um *job* do *preset* alto imediatamente antes de um pedido do aplicativo, e a foto do pato foi reenviada para exercitar o cache.
 
-Tabela: Tempos medidos pelo aplicativo no emulador contra o servidor real (com textura e remoção de fundo; tamanho do GLB em KiB, como exibido no aplicativo)
+Tabela: Tempos medidos pelo aplicativo no emulador contra o servidor real (com textura e remoção de fundo; entre parênteses, o tamanho do GLB)
 | Objeto e *preset* | Envio (s) | Fila: app / servidor (s) | Geração no app / execução no servidor (s) | *Download* (s) | Total (s) |
 |---|---|---|---|---|---|
 | Pato, rápido (340 KiB) | 0,41 | 1,25 / 0,24 | 11,19 / 11,20 | 0,67 | 13,5 |
@@ -305,7 +307,7 @@ Tabela: Tempos medidos pelo aplicativo no emulador contra o servidor real (com t
 | Gato, padrão, atrás de 1 *job* alto | 0,40 | 28,25 / 27,85 | 15,81 / 15,88 | 0,46 | 44,9 |
 | Pato, rápido, reenvio (cache) | 0,29 | 0,28 / 0 | 0 / 0 | 0,43 | 1,0 |
 
-Sem concorrência, o tempo percebido variou de 13,5 s (rápido) a 31,5 s (alto), dominado pela execução na GPU (83 % a 96 % do total); envio e *download* somaram no máximo 1,3 s. A fila de 1,2 a 1,4 s registrada no aplicativo é artefato da resolução do *polling*, pois o servidor registrou de 0,09 a 0,24 s. Com um *job* alto à frente, a espera (27,85 s) praticamente igualou a execução desse *job* (28,2 s), como esperado para um único processo de GPU. Os sete GLBs gerados tinham textura JPEG, maior dimensão de 0,30 m e nenhuma extensão de compressão. O teste motivou ajustes em JavaScript: o *download* de um GLB de 398 KiB levava 5,0 s e, após deixar de gravar a lista de modelos a cada evento de progresso e baixar a miniatura em paralelo, caiu para 0,45 s, com o total passando de 18,0 s para 13,5 s (mudanças aplicadas juntas); além disso, a exclusão de um modelo no aplicativo passou a apagar a cópia no servidor.
+Sem concorrência, o tempo percebido variou de 13,5 s (rápido) a 31,5 s (alto), dominado pela execução na GPU (83 % a 96 % do total); envio e *download* somaram no máximo 1,3 s. Com os mesmos parâmetros, as etapas na GPU levaram de um terço a metade do tempo medido na rodada de *presets*, feita horas antes e sob outra ocupação da GPU compartilhada (no *preset* alto, a difusão multivista levou 15,9 s, contra 33 a 54 s), o que confirma que os tempos da tabela de *presets* são limites superiores. A fila de 1,2 a 1,4 s registrada no aplicativo é artefato da resolução do *polling*, pois o servidor registrou de 0,09 a 0,24 s. Com um *job* alto à frente, a espera (27,85 s) praticamente igualou a execução desse *job* (28,2 s), como esperado para um único processo de GPU. Todos os GLBs entregues (seis gerados e o reenvio atendido pelo cache) tinham textura JPEG, maior dimensão de 0,30 m e nenhuma extensão de compressão. O teste motivou ajustes em JavaScript: o *download* de um GLB de 398 KiB levava 5,0 s e, após deixar de gravar a lista de modelos a cada evento de progresso e baixar a miniatura em paralelo, caiu para 0,45 s, com o total passando de 18,0 s para 13,5 s (mudanças aplicadas juntas); além disso, a exclusão de um modelo no aplicativo passou a apagar a cópia no servidor.
 
 ![Fluxo de geração no Android com o servidor real: envio da foto, geração da malha, texturização multivista e resultado com o GLB texturizado baixado em 13,5 s no total](E:/CERISE/FRENTES/REALIDADE AUMENTADA/APP_CERISE_AR/evidencias/fig14-android-real-fluxo-geracao.png){w=12}
 
@@ -319,13 +321,13 @@ A validação com o servidor real ocorreu apenas no emulador e pela rede interna
 
 ## Adequação do aplicativo para publicação na Play Store
 
-Esta etapa corresponde à Atividade 6 do Objetivo 2, que prevê a publicação do aplicativo na Play Store. O trabalho concentrou-se na adequação técnica e normativa e na preparação e verificação do pacote de publicação. A publicação não foi realizada: as etapas no Play Console exigem autenticação do bolsista na conta de desenvolvedor, e dois pré-requisitos, a publicação da política de privacidade e a exposição pública do servidor, aguardam decisão.
+Esta etapa corresponde à Atividade 6 do Objetivo 2, que prevê a publicação do aplicativo na Play Store. O trabalho concentrou-se na adequação técnica e normativa e na preparação e verificação do pacote de publicação. A publicação não foi realizada: as etapas na conta de desenvolvedor do Play Console ainda não foram executadas, e dois pré-requisitos, a publicação da política de privacidade e a exposição pública do servidor, aguardam decisão.
 
 ### Adequação técnica e normativa
 
-A configuração nativa foi declarada nos arquivos do Expo e em *plugins* próprios, de modo que os projetos Android e iOS são gerados de forma reprodutível. A versão 1.1.0 (código 110) declara apenas as permissões de câmera e de internet e bloqueia no manifesto as permissões acrescentadas por bibliotecas; a galeria usa o seletor de fotos do sistema, que dispensa permissão de mídia. As arquiteturas nativas foram restritas a `armeabi-v7a` e `arm64-v8a`, as únicas distribuídas pelo ViroReact, o que eliminou o encerramento ao iniciar em dispositivos x86_64 e reduziu o AAB de 75,84 MB para 55,16 MB (−27 %) e o APK universal de 116,82 MB para 83,30 MB (−29 %). O tráfego sem criptografia foi proibido, exceto para endereços locais de teste, e os artefatos foram assinados com uma chave de *upload* dedicada, mantida fora do controle de versão. Após a integração com o servidor real, o AAB e o APK foram recompilados e verificados, com os resultados a seguir.
+A configuração nativa foi declarada nos arquivos do Expo e em *plugins* próprios, de modo que os projetos Android e iOS são gerados de forma reprodutível. A versão 1.1.0 (código 110) declara apenas as permissões de câmera e de internet e bloqueia no manifesto as permissões sensíveis acrescentadas por bibliotecas; além das duas declaradas, restam no APK apenas a de estado da rede e uma permissão interna do AndroidX, ambas de bibliotecas; a galeria usa o seletor de fotos do sistema, que dispensa permissão de mídia. As arquiteturas nativas foram restritas a `armeabi-v7a` e `arm64-v8a`, as únicas distribuídas pelo ViroReact, o que eliminou o encerramento ao iniciar em dispositivos x86_64 e reduziu o AAB de 75,84 MB para 55,16 MB (−27 %) e o APK universal de 116,82 MB para 83,30 MB (−29 %). O tráfego sem criptografia foi proibido, exceto para endereços locais de teste, e os artefatos foram assinados com uma chave de *upload* dedicada, mantida fora do controle de versão. Após a integração com o servidor real, o AAB e o APK foram recompilados e verificados, com os resultados a seguir.
 
-Tabela: Verificações no AAB e no APK release finais do CERISE AR 1.1.0
+Tabela: Verificações no AAB e no APK *release* finais do CERISE AR 1.1.0
 | Requisito | Resultado medido |
 |---|---|
 | Nível de API | targetSdkVersion 36, compileSdk 36, minSdk 24 |
@@ -337,11 +339,11 @@ Tabela: Verificações no AAB e no APK release finais do CERISE AR 1.1.0
 
 Na parte normativa, foram preparados a política de privacidade em português, conforme a LGPD [24], com o uso da câmera e das fotos, o envio ao servidor apenas para gerar o modelo, a exclusão em até 7 dias (ou imediata quando o usuário exclui o modelo) e a ausência de anúncios e de rastreamento; as respostas do formulário de segurança dos dados, da classificação etária IARC e do público-alvo (13 anos ou mais); a remoção, na versão de loja, de modelos de personagens de franquias, em atenção à política de propriedade intelectual; a restrição das atualizações remotas ao código JavaScript; a ficha da loja, com ícone 512×512, recurso gráfico 1024×500 e sete capturas de tela, três delas do teste com o servidor real; e um guia de publicação com as etapas de teste interno, teste fechado com 12 testadores por 14 dias (exigido de contas pessoais novas) e produção.
 
-![Pacote gráfico da Play Store: recurso gráfico 1024×500, ícone 512×512 e sete capturas de tela do emulador, das quais as de números 2, 3 e 7 provêm do teste com o servidor 3D real](E:/CERISE/FRENTES/REALIDADE AUMENTADA/APP_CERISE_AR/evidencias/fig10-pacote-play-store.png){w=13}
+![Pacote gráfico da Play Store: recurso gráfico 1024×500, ícone 512×512 e sete capturas de tela do emulador, das quais as de números 2, 3 e 7 provêm do teste com o servidor 3D real](E:/CERISE/FRENTES/REALIDADE AUMENTADA/APP_CERISE_AR/evidencias/fig10-pacote-play-store.png){w=11}
 
 ### Situação e pendências
 
-O pacote está pronto e verificado, mas o aplicativo não foi publicado, razão pela qual a atividade é considerada parcialmente concluída. Permanecem pendentes a criação do aplicativo no Play Console, o envio do AAB ao teste interno, o teste fechado e os formulários, que exigem autenticação do bolsista; a publicação da política de privacidade no endereço público previsto, que respondia com erro 404 em 26/10/2026; e a exposição pública do servidor de geração 3D, sem a qual a revisão de produção não deve ser solicitada. Também devem ser verificadas a disponibilidade do nome de pacote e a cópia de segurança da chave de *upload*. No iOS, a compilação assinada e o envio ao TestFlight foram documentados, mas não executados.
+O pacote está pronto e verificado, mas o aplicativo não foi publicado, razão pela qual a atividade é considerada parcialmente concluída. Permanecem pendentes a criação do aplicativo no Play Console, o envio do AAB ao teste interno, o teste fechado e os formulários; a publicação da política de privacidade no endereço público previsto, que respondia com erro 404 em 26/10/2026; e a exposição pública do servidor de geração 3D, sem a qual a revisão de produção não deve ser solicitada. Também devem ser verificadas a disponibilidade do nome de pacote e a cópia de segurança da chave de *upload*. No iOS, a compilação assinada e o envio ao TestFlight foram documentados, mas não executados.
 
 Código e evidências do aplicativo: [repositório cerise-ar, branch feat/2026-gen3d-playstore (privado)](https://github.com/cerise-ufg/cerise-ar/tree/feat/2026-gen3d-playstore)
 
@@ -382,7 +384,7 @@ Tabela: Indicadores de integridade, distribuição e geração do dataset
 
 A distância média ao vizinho mais próximo no espaço de juntas normalizado (0,1265) é praticamente igual à de uma amostra uniforme de mesmo tamanho (0,1262), o que confirma a cobertura homogênea ilustrada abaixo.
 
-![Cobertura do espaço de juntas por pares de juntas e matriz de correlação de Pearson entre as juntas](E:/CERISE/RELATORIOS/2026/figuras/a7_cobertura_correlacao_sem_titulo.png){w=15}
+![Cobertura do espaço de juntas em oito dos dez pares de juntas e matriz de correlação de Pearson entre as juntas](E:/CERISE/RELATORIOS/2026/figuras/a7_cobertura_correlacao_sem_titulo.png){w=15}
 
 A divergência entre juntas reais e comandadas concentra-se em `joint_1` a `joint_3` (19,8 %, 26,9 % e 21,9 % das poses). A cinemática direta do modelo digital explica a maior parte dos casos: 19,7 % das configurações comandadas levariam algum elo abaixo do chão, e todas elas divergem, pois o braço é barrado pelo chão e o JSON registra a posição em que parou. As imagens confirmam que o rótulo correto é a junta real: em 670 imagens de poses divergentes, o IoU médio entre a silhueta do modelo e a máscara do simulador foi de 0,930 com as juntas reais e de 0,547 com as comandadas.
 
@@ -394,11 +396,11 @@ O dataset é íntegro, uniforme e documentado, mas o campo `juntas_reais` deve s
 
 ## Aplicação do modelo de estimação de pose de 2025 ao novo dataset
 
-Esta etapa corresponde à Atividade 8 do Objetivo 3: obter resultados quantitativos do modelo de detecção de pose do ano anterior sobre o novo conjunto de dados, descrito na subseção anterior. O modelo de 2025 estima a pose do braço a partir de uma única imagem RGB, sem acesso aos estados das juntas, e segue a arquitetura de estimação holística de pose de robôs de Ban et al. [29] (*Real-time Holistic Robot Pose Estimation with Unknown States*), referida no relatório de 2025 como HPRE, acrescida de um ramo de profundidade monocular baseado no Depth Anything V2 [30]. No relatório de dezembro de 2025, esse modelo atingiu 75,4 % de acurácia ADD com limiar de 60 mm no robô Panda, no conjunto real DREAM com câmera RealSense [31]; esse resultado foi publicado em 2026 nos dois artigos descritos na subseção de produção científica.
+Esta etapa corresponde à Atividade 8 do Objetivo 3: obter resultados quantitativos do modelo de detecção de pose do ano anterior sobre o novo conjunto de dados, descrito na subseção anterior. O modelo de 2025 estima a pose do braço a partir de uma única imagem RGB, sem acesso aos estados das juntas, e segue a arquitetura de estimação holística de pose de robôs de Ban et al. [29] (*Real-time Holistic Robot Pose Estimation with Unknown States*), referida nos artigos de 2026 como HRPE (grafada HPRE no relatório de 2025), acrescida de um ramo de profundidade monocular baseado no Depth Anything V2 [30]. No relatório de dezembro de 2025, esse modelo atingiu 75,4 % de acurácia ADD com limiar de 60 mm no robô Panda, no conjunto real DREAM com câmera RealSense [31]; esse resultado foi publicado em 2026 nos dois artigos descritos na subseção de produção científica.
 
 ### Metodologia e implementação
 
-Os 75,4 % correspondem à época 355 do experimento final de 2025 (`MyNet/experiments/panda/realsense_full`), com AUC-ADD de 0,547; como o script de 2025 guardava apenas o melhor AUC e o último estado, os pesos dessa época não existem, e a transferência partiu do estado final salvo do mesmo treino (111,2 milhões de parâmetros). A arquitetura combina uma rede de profundidade da raiz (DepthNet, HRNet-W32 [32]) fundida com a profundidade relativa do Depth Anything V2, um ramo integral com mapas de calor 3D (ResNet-50 [33]), a regressão iterativa dos ângulos e da rotação da raiz e uma cinemática direta diferenciável.
+Os 75,4 % correspondem à época 355 do experimento final de 2025 (`MyNet/experiments/panda/realsense_full`), com AUC-ADD de 0,547; como o script de 2025 guardava apenas os pesos de melhor AUC e os do último estado, os pesos dessa época não existem; dos dois arquivos salvos, a transferência partiu do estado final do mesmo treino, por ser o mais treinado (111,2 milhões de parâmetros). A arquitetura combina uma rede de profundidade da raiz (DepthNet, HRNet-W32 [32]) fundida com a profundidade relativa do Depth Anything V2, um ramo integral com mapas de calor 3D (ResNet-50 [33]), a regressão iterativa dos ângulos e da rotação da raiz e uma cinemática direta diferenciável.
 
 O código, escrito para o Google Colab, foi portado sem reimplementação para um contêiner na estação DGX Spark (aarch64), com compatibilidade de pesos. Foram corrigidos dois defeitos do código de 2025: a profundidade da raiz era calculada depois da camada integral, o que explica as métricas zeradas desse ramo nos registros de 2025, e o laço de treino chamava `optimizer.step()` duas vezes por iteração. A adaptação ao servo6dof envolveu a cinemática direta da cadeia, obtida do URDF; 7 pontos-chave (base, origens das cinco juntas e centro da garra), o mesmo número do Panda, o que permitiu reaproveitar a camada final dos mapas de calor; cinco juntas estimadas, sem a abertura da garra; e a ampliação da faixa de profundidade dos mapas de calor de 1,3 m para 3,0 m, pois o braço tem cerca de 2,0 m de alcance, aproximadamente 2,4 vezes o do Panda. A geometria das câmeras foi verificada projetando sobre as imagens os pontos-chave calculados com os ângulos reais: numa amostra de 300 poses, 99,9 % (frontal) e 99,6 % (diagonal) dos pontos-chave dentro do quadro recaem sobre a máscara do robô, conforme ilustrado abaixo.
 
@@ -406,7 +408,7 @@ O código, escrito para o Google Colab, foi portado sem reimplementação para u
 
 A divisão treino/validação/teste foi feita por pose, de forma aleatória (semente 2026), na proporção 80/10/10 (8.000/1.000/1.000 imagens), mantendo as duas câmeras de uma pose no mesmo subconjunto. Em vez do recorte pela caixa dos pontos-chave verdadeiros do protocolo DREAM de 2025, adotou-se um recorte fixo por câmera, calculado só com o treino, de modo que teste e inferência não dependem do gabarito.
 
-Foram aplicadas as etapas da metodologia de 2025 compatíveis com dados sintéticos. Na etapa 1, a DepthNet foi treinada por 5 épocas sobre as 3.151 poses de treino disponíveis naquele momento, atingindo erro de profundidade da raiz de 71 mm na validação. Na etapa 2, o modelo completo foi treinado com taxa de aprendizado de 1×10⁻⁴, decaimento de 0,9 por época, lote 32 e o aumento de dados fotométrico de 2025. A etapa 3 de 2025, autossupervisionada com imagens reais, não se aplica, pois ainda não há imagens reais do braço. Foram comparadas duas inicializações: a **transferência**, em que 98,1 % dos parâmetros vieram do modelo de 2025, e uma **linha de base** com redes pré-treinadas no ImageNet. A transferência recebeu 20 épocas (cerca de 62 min); a linha de base, executada isoladamente depois que uma tentativa em paralelo foi abortada por falta de memória na estação compartilhada, parou pelo limite de tempo após 12 épocas. Na época 12, a transferência tinha erro 3D de validação de 65,0 mm, contra 83,7 mm da linha de base, e acurácia@60 mm de 59,1 % contra 34,9 %, com MAE das juntas semelhante (13,1° contra 12,8°), conforme as curvas a seguir.
+Foram aplicadas as etapas da metodologia de 2025 compatíveis com dados sintéticos. Na etapa 1, a DepthNet foi treinada por 5 épocas sobre as 3.151 poses de treino disponíveis naquele momento, atingindo erro de profundidade da raiz de 71 mm na validação. Na etapa 2, o modelo completo foi treinado com taxa de aprendizado de 1×10⁻⁴, decaimento de 0,9 por época, lote 32 e o aumento de dados fotométrico de 2025. A etapa 3 de 2025, autossupervisionada com imagens reais, não se aplica, pois ainda não há imagens reais do braço. Compararam-se duas inicializações: a **transferência**, em que 98,1 % dos parâmetros vieram do modelo de 2025, e uma **linha de base** com redes pré-treinadas no ImageNet. A transferência recebeu 20 épocas (cerca de 62 min); a linha de base, executada isoladamente depois que uma tentativa em paralelo foi abortada por falta de memória na estação compartilhada, parou pelo limite de tempo após 12 épocas. Na época 12, a transferência tinha erro 3D de validação de 65,0 mm, contra 83,7 mm da linha de base, e acurácia@60 mm de 59,1 % contra 34,9 %, com MAE das juntas semelhante (13,1° contra 12,8°), conforme as curvas a seguir.
 
 ![Etapa 2 do treino: perda total e métricas de validação por época (erro 3D, MAE das juntas e PCK a 10 px) para a transferência dos pesos de 2025 e para a linha de base inicializada no ImageNet](E:/CERISE/RELATORIOS/2026/figuras/curvas_treino_2x2.png){w=11}
 
@@ -438,12 +440,12 @@ Tabela: Acurácia@60 mm em 2025 (Panda) e 2026 (servo6dof); robôs, escalas, câ
 | Modelo | Robô / dados | ADD@60 mm (%) | AUC-ADD | MAE (°) |
 |---|---|---|---|---|
 | RoboPose [34] | Panda / DREAM real | 74,3 | — | — |
-| HPRE [29] | Panda / DREAM real | 75,2 | — | — |
-| Modelo de 2025 (HPRE + DA-V2) | Panda / DREAM real | 75,4 | 0,547 | 11,58 |
+| HRPE [29] | Panda / DREAM real | 75,2 | — | — |
+| Modelo de 2025 (HRPE + DA-V2) | Panda / DREAM real | 75,4 | 0,547 | 11,58 |
 | Modelo de 2025 com transferência | servo6dof / sintético | 68,0 | 0,471 | 12,68 |
 | Mesma arquitetura, ImageNet | servo6dof / sintético | 32,8 | 0,265 | 13,51 |
 
-Os valores de RoboPose e HPRE foram transcritos do relatório de 2025 e não puderam ser reconferidos em arquivo de resultados; os do modelo de 2025 foram conferidos no arquivo de resultados do treino de 2025. As principais limitações desta etapa são os dados exclusivamente sintéticos, o uso do estado final do treino de 2025 em vez dos pesos da época de 75,4 %, a linha de base com menos épocas, a etapa 1 treinada num subconjunto e o orçamento de treino de cerca de uma hora em GPU compartilhada.
+Os valores de RoboPose e HRPE foram transcritos do relatório de 2025 e não puderam ser reconferidos em arquivo de resultados; os do modelo de 2025 foram conferidos no arquivo de resultados do treino de 2025. As principais limitações desta etapa são os dados exclusivamente sintéticos, o uso do estado final do treino de 2025 em vez dos pesos da época de 75,4 %, a linha de base com menos épocas, a etapa 1 treinada num subconjunto e o orçamento de treino de cerca de uma hora em GPU compartilhada.
 
 ## Avaliação de precisão e robustez do modelo de pose
 
@@ -462,7 +464,7 @@ Tabela: Erro por junta no conjunto de teste
 | joint_4 (punho) | 10,52 | 6,64 | 9,25 |
 | joint_5 (rotação da garra) | 41,73 | 42,49 | 41,83 |
 
-As juntas 1 a 3 são estimadas com MAE entre 3,0° e 4,2° e a junta 4 (punho), com 10,5°. A junta 5, rotação da garra em torno do eixo do antebraço, tem MAE de 41,7° nos dois modelos, valor compatível com um preditor que não extrai informação dessa junta: o ponto-chave da garra está praticamente sobre o eixo de rotação, de modo que sua variação quase não altera os pontos-chave e as perdas geométricas não a supervisionam. Excluída a junta 5, o MAE médio das juntas 1 a 4 é de 5,4°. O erro 3D por ponto-chave é mínimo no ponto de referência (cotovelo, 27 mm) e cresce em direção à extremidade da cadeia, atingindo 110 mm na garra. No plano da imagem, 30,1 %, 61,7 % e 87,1 % dos pontos-chave ficam a menos de 5, 10 e 20 px da posição verdadeira, conforme as curvas a seguir. As duas câmeras têm desempenho equivalente: erro 3D de 57,4 mm e acurácia@60 mm de 69,0 % na frontal, contra 60,0 mm e 67,0 % na diagonal.
+As juntas 1 a 3 são estimadas com MAE entre 3,0° e 4,2° e a junta 4 (punho), com 10,5°. A junta 5, rotação da garra em torno do eixo do antebraço, tem MAE de cerca de 42° nos dois modelos (41,7° e 41,8°), valor compatível com um preditor que não extrai informação dessa junta: o ponto-chave da garra está praticamente sobre o eixo de rotação, de modo que sua variação quase não altera os pontos-chave e as perdas geométricas não a supervisionam. Excluída a junta 5, o MAE médio das juntas 1 a 4 é de 5,4°. O erro 3D por ponto-chave é mínimo no ponto de referência (cotovelo, 27 mm) e cresce em direção à extremidade da cadeia, atingindo 110 mm na garra. No plano da imagem, 30,1 %, 61,7 % e 87,1 % dos pontos-chave ficam a menos de 5, 10 e 20 px da posição verdadeira, conforme as curvas a seguir. As duas câmeras têm desempenho equivalente: erro 3D de 57,4 mm e acurácia@60 mm de 69,0 % na frontal, contra 60,0 mm e 67,0 % na diagonal.
 
 ![Curvas ADD (porcentagem de imagens com erro 3D médio até o limiar, com o limiar de 60 mm de 2025 destacado) e PCK 2D (porcentagem de pontos-chave com erro até o limiar, em pixels da imagem 1280×720) no conjunto de teste](E:/CERISE/FRENTES/ROBOTICA/POSE_SERVO6DOF/evidencias/curvas_add_pck.png){w=13}
 
@@ -495,7 +497,7 @@ O modelo mostrou-se robusto a brilho e contraste (erro 3D de no máximo 68 mm me
 
 ### Latência e limitações
 
-O modelo final foi empacotado num módulo de inferência (`PosePredictor`), usado pelo gêmeo digital, que recebe uma imagem RGB 1280×720 e devolve os ângulos das cinco juntas e os pontos-chave 2D e 3D. Em 100 chamadas com lote 1, a latência ponta a ponta foi de 162,5 ms em média (mediana de 170,1 ms e p95 de 174,1 ms), ou 6,15 quadros por segundo, com pico de 2,94 GB de memória de GPU, valores pessimistas por causa da GPU compartilhada. Numa medição separada, o Depth Anything V2 (ViT-L) respondeu por cerca de 65 % do tempo total (138,9 ms de 213,8 ms), enquanto a rede HPRE isolada levou 74,9 ms; versões menores do Depth Anything V2 ou a otimização com TensorRT são as alternativas para tempo real.
+O modelo final foi empacotado no módulo de inferência `PosePredictor`, usado pelo gêmeo digital, que recebe uma imagem RGB 1280×720 e devolve os ângulos das cinco juntas e os pontos-chave 2D e 3D. Em 100 chamadas com lote 1, a latência ponta a ponta foi de 162,5 ms em média (mediana de 170,1 ms e p95 de 174,1 ms), ou 6,15 quadros por segundo, com pico de 2,94 GB de memória de GPU, valores pessimistas por causa da GPU compartilhada. Numa medição separada, o Depth Anything V2 (ViT-L) respondeu por cerca de 65 % do tempo total (138,9 ms de 213,8 ms), enquanto a rede HRPE isolada levou 74,9 ms; versões menores do Depth Anything V2 ou a otimização com TensorRT são as alternativas para tempo real.
 
 As principais limitações da avaliação são as medições apenas em dados sintéticos e com duas câmeras fixas, sem imagens reais do braço físico; a junta 5 não observável com os pontos-chave escolhidos e a abertura da garra não estimada; e os experimentos de generalização e de robustez feitos em subconjuntos. Como próximos passos, propõem-se adicionar pontos-chave nas pontas das pinças, randomizar pose de câmera, iluminação e texturas na geração de dados, incluir ruído, desfoque e compressão no aumento de dados e capturar imagens reais para aplicar a etapa autossupervisionada de 2025.
 
@@ -555,7 +557,7 @@ O servidor do gêmeo (FastAPI com WebSocket) executa em contêiner na estação 
 
 ### Resultados
 
-A média das cinco juntas no gêmeo (12,68°) é igual à da avaliação da frente de pose nas mesmas imagens, o que indica que a integração não acrescenta erro; o viés médio é inferior a 1° em módulo nas juntas 1 a 4.
+A média das cinco juntas no gêmeo (12,68°) é igual à da avaliação da frente de pose nas mesmas imagens, o que indica que a integração não acrescenta erro (as medianas das juntas diferem em até 0,02° por pequenas diferenças numéricas da nova execução da inferência na GPU); o viés médio é inferior a 1° em módulo nas juntas 1 a 4.
 
 Tabela: Erro absoluto por junta no gêmeo digital, em graus (conjunto de teste, apenas imagem)
 | Junta | Frontal (média) | Diagonal (média) | Total (média) | Total (mediana) | Total (p95) |
@@ -571,7 +573,7 @@ O erro de posição do efetuador teve mediana de 76,4 mm, média de 107,1 mm, p9
 
 ![Gêmeo digital com o modelo de pose em um quadro de baixo erro: braço de referência e gêmeo lado a lado, esqueleto 2D previsto sobre a imagem, ângulos por junta e erro do efetuador de 1,5 cm](E:/CERISE/FRENTES/ROBOTICA/SERVO6DOF_GEMEO/evidencias/a12i_gemeo_baixo_erro_lado.png){w=12}
 
-A latência entre a leitura da imagem e o gêmeo desenhado está decomposta na tabela seguinte; o modelo de pose domina o tempo, e a mediana ponta a ponta supera a do modelo em cerca de 22 ms.
+A latência entre a leitura da imagem e o gêmeo desenhado está decomposta na tabela seguinte; o modelo de pose domina o tempo, e a mediana ponta a ponta supera a do modelo em cerca de 22 ms. A mediana do modelo neste ensaio (77,7 ms) é menor que a da medição isolada do `PosePredictor` (170,1 ms); as duas foram feitas em momentos diferentes e com cargas diferentes na GPU compartilhada com os serviços de produção, e por isso os valores absolutos não são comparáveis entre si.
 
 Tabela: Latência por etapa, em milissegundos (1.000 quadros, malha fechada, WebGL na GPU)
 | Etapa | Mediana | Média | p95 |
@@ -587,7 +589,7 @@ Em malha fechada, a sessão da câmera frontal sustentou 9,76 quadros/s e a da d
 
 ![Latência imagem → predição → gêmeo desenhado por etapa, distribuição da latência em 1.000 quadros e taxa de quadros sustentada por sessão](E:/CERISE/FRENTES/ROBOTICA/SERVO6DOF_GEMEO/evidencias/a12i_latencia_fps.png){w=15}
 
-O principal modo de falha foi o braço cortado pelo enquadramento: numa amostra de 200 quadros, isso ocorreu em 22,5 % deles, com erro mediano do efetuador de 117 mm contra 70 mm nos demais, e esteve presente em 45 % dos 20 piores quadros. O pior caso (991 mm) é uma ambiguidade do tipo "cotovelo invertido", com erros de +111° no ombro e −118° no cotovelo e silhueta 2D semelhante à verdadeira. O erro também cresce com o giro da base (correlação de Spearman de 0,36 com o módulo de `joint_1`).
+O principal modo de falha foi o braço cortado pelo enquadramento: numa amostra de 200 quadros, isso ocorreu em 22,5 % deles, com erro mediano do efetuador de 117 mm contra 70 mm nos demais, e esteve presente em 45 % dos 20 piores quadros. O pior caso (991 mm) é uma ambiguidade do tipo “cotovelo invertido”, com erros de +111° no ombro e −118° no cotovelo e silhueta 2D semelhante à verdadeira. O erro também cresce com o giro da base (correlação de Spearman de 0,36 com o módulo de `joint_1`).
 
 ![Piores quadros do gêmeo pelo erro do efetuador e um quadro de baixo erro, com o esqueleto verdadeiro em branco e o previsto em verde](E:/CERISE/RELATORIOS/2026/figuras/a12i_piores_quadros_grade.png){w=11}
 
@@ -595,7 +597,7 @@ No teste em ROS 2 (40 s, imagens da câmera frontal publicadas a 2 Hz), o tópic
 
 ### Discussão e limitações
 
-O gêmeo reproduz o comportamento do braço nas juntas que o modelo observa bem: nas juntas 1 a 4, o erro mediano é de 3,8°, e 64,5 % dos quadros têm o efetuador a menos de 10 cm da posição real, com 5,9 a 9,8 quadros/s em malha fechada (conforme a câmera e a carga da GPU) e latência mediana de 0,1 s, adequados ao acompanhamento visual. Como limitações, a validação foi feita apenas em simulação, com imagens sintéticas e as mesmas duas câmeras do treino; a rotação da garra não é estimada de forma útil e a abertura da garra não é estimada; a latência foi medida com a GPU compartilhada, sem garantia de tempo real; e cada quadro é tratado de forma independente, sem filtro temporal. O visualizador não foi exposto publicamente, o que depende de decisão do bolsista. Propõem-se a avaliação com o braço físico e câmera calibrada, a fusão das duas câmeras com filtragem temporal e a inclusão de pontos-chave nas pinças.
+O gêmeo reproduz o comportamento do braço nas juntas que o modelo observa bem: nas juntas 1 a 4, o erro mediano é de 3,8°, e 64,5 % dos quadros têm o efetuador a menos de 10 cm da posição real, com 5,9 a 9,8 quadros/s em malha fechada (conforme a câmera e a carga da GPU) e latência mediana de 0,1 s, adequados ao acompanhamento visual. Como limitações, a validação foi feita apenas em simulação, com imagens sintéticas e as mesmas duas câmeras do treino; a rotação da garra não é estimada de forma útil e a abertura da garra não é estimada; a latência foi medida com a GPU compartilhada, sem garantia de tempo real; e cada quadro é tratado de forma independente, sem filtro temporal. O visualizador foi mantido acessível apenas pela rede interna, por túnel SSH, e sua exposição pública ficou para uma etapa posterior. Propõem-se a avaliação com o braço físico e câmera calibrada, a fusão das duas câmeras com filtragem temporal e a inclusão de pontos-chave nas pinças.
 
 Código e evidências do dataset, do modelo digital e do gêmeo digital: [repositório cerise-2026-servo6dof-gemeo-digital (privado)](https://github.com/cerise-ufg/cerise-2026-servo6dof-gemeo-digital)
 
@@ -613,7 +615,7 @@ O firmware foi escrito com PlatformIO (framework Arduino), RadioLib 7.8.1 [39] e
 
 ### Verificação e simulação
 
-A verificação compreendeu 30 testes unitários nativos (Unity) e 21 testes em Python, todos aprovados, que cobrem, entre outros casos, a detecção de todos os erros de 1 e de 2 bits e de rajadas de até 16 bits num quadro de 24 B; um espelho do protocolo em Python, com resultados idênticos aos da implementação em C em 3.000 de 3.000 quadros válidos, linhas JSON e quadros corrompidos; uma calculadora de tempo no ar baseada na formulação da Semtech [43], conferida em 9.360 de 9.360 combinações; e a compilação, sem avisos, dos cinco ambientes de firmware. O tempo no ar do `POS` resultou em 61,7 ms, 205,8 ms e 370,7 ms em SF7, SF9 e SF10; o `AREA_ASSIGN` (32 B) ocupa 452,6 ms em SF10 e, portanto, deve ser enviado com SF ≤ 9.
+A verificação compreendeu 30 testes unitários nativos (Unity) e 21 testes em Python, todos aprovados, que cobrem, entre outros casos, a detecção de todos os erros de 1 e de 2 bits e de rajadas de até 16 bits num quadro de 24 B; um espelho do protocolo em Python, com resultados idênticos aos da implementação em C em 3.000 de 3.000 quadros válidos, linhas JSON e quadros corrompidos; uma calculadora de tempo no ar baseada na formulação da Semtech [43], conferida em 9.360 de 9.360 combinações; e a compilação, sem avisos, dos cinco ambientes de firmware. O tempo no ar do `POS` resultou em 61,7 ms, 205,8 ms e 370,7 ms em SF7, SF9 e SF10; o quadro de `AREA_ASSIGN` (32 B, com *payload* de 22 B) ocupa 452,6 ms em SF10 e, portanto, deve ser enviado com SF ≤ 9.
 
 Uma simulação de eventos discretos de N drones compartilhando o canal, validada contra a expressão analítica do ALOHA puro [44] (erro absoluto médio de 0,56 p.p. e máximo de 1,47 p.p. entre N = 2 e N = 20), totalizou 1.130 execuções (5 sementes de 1.800 s simulados por configuração). A tabela e a figura a seguir apresentam a PDR média em SF9, com `POS` a cada 5 s.
 
@@ -628,15 +630,17 @@ Tabela: PDR simulada (%) em função do número de drones N, em SF9, com POS de 
 | 15 | 30,1 | 3,2 | 26,5 | 54,2 | 83,5 |
 | 20 | 19,2 | 0,7 | 11,2 | 43,7 | 62,6 |
 
-![Resultados da simulação de eventos discretos em SF9: PDR, latência média e colisões no gateway em função do número de drones para cinco esquemas de acesso ao canal](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/LORA/evidencias/fig_sim_vs_N.png){w=15}
+![Resultados da simulação de eventos discretos em SF9: PDR, latência média e colisões no gateway em função do número de drones para cinco esquemas de acesso ao canal; a curva pontilhada é o ALOHA + ACK com o recuo curto (ToA·2ᵏ) da versão inicial do firmware](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/LORA/evidencias/fig_sim_vs_N.png){w=15}
 
-Três conclusões orientam o projeto. O ACK com retransmissão no mesmo canal piora o desempenho sob carga: com 10 drones, a ocupação somada do canal chega a 145 % e a PDR cai para 15,1 %, contra 46,0 % sem ACK, o que motivou a alteração do recuo de retransmissão no firmware. A escuta prévia do canal (CAD) mantém PDR ≥ 97,9 % até 8 drones, mas também satura acima disso. O TDMA com *slots* sincronizados por GPS (*slot* de 401 ms em SF9) entrega 100 % até 12 drones, ao custo de maior latência (2.214 ms em média com 10 drones, contra 206 ms no ALOHA puro). Por fim, o leitor serial do *gateway* (*dashboard*) foi exercitado com 600 s simulados de três drones a 1,0 km, 4,6 km e 6,4 km da estação, sobre um canal sintético: foram lidas 593 linhas sem nenhuma inválida, e a PDR calculada coincidiu com a reportada pelo *gateway* simulado: 98,6 % (137/139), 97,8 % (135/138) e 94,9 % (129/136).
+Três conclusões orientam o projeto. O ACK com retransmissão no mesmo canal piora o desempenho sob carga: com 10 drones, a ocupação somada do canal chega a 145 % e a PDR cai para 15,1 %, contra 46,0 % sem ACK, o que motivou a alteração do recuo de retransmissão no firmware. A escuta prévia do canal (CAD) mantém PDR ≥ 97,9 % até 8 drones, mas também satura acima disso. O TDMA com *slots* sincronizados por GPS (*slot* de 401 ms em SF9) entrega 100 % até 12 drones, ao custo de maior latência (2.214 ms em média com 10 drones, contra 206 ms no ALOHA puro).
+
+O leitor serial do *gateway* (*dashboard*) também foi exercitado com 600 s simulados de três drones a 1,0 km, 4,6 km e 6,4 km da estação, sobre um canal sintético: foram lidas 593 linhas sem nenhuma inválida, e a PDR calculada coincidiu com a reportada pelo *gateway* simulado: 98,6 % (137/139), 97,8 % (135/138) e 94,9 % (129/136).
 
 ### Projeto do módulo de comunicação dos drones
 
 O módulo definitivo foi especificado como um *modem* LoRa transparente para o computador de bordo do drone, o mesmo que executa o planejamento de cobertura e a contagem de pessoas: o computador envia comandos de linha pela UART (3,3 V, 115200 bps) e recebe o registro em linhas JSON, inclusive os *downlinks* `AREA_ASSIGN`, de modo que o rádio não depende da controladora de voo. A alimentação de 5 V vem de um BEC dedicado, e a antena dipolo de 915 MHz fica na vertical, voltada para baixo, a pelo menos 10 cm do receptor GNSS e dos cabos dos ESCs, conforme o diagrama a seguir. O gabinete foi modelado de forma paramétrica em Python, com dimensões externas de 55,0 × 44,3 × 17,2 mm e massa estimada de 12,9 g em PETG com preenchimento total, valor tomado como limite superior.
 
-![Diagrama de ligação: (a) protótipo de bancada com duas placas Heltec V3 e notebook de solo; (b) módulo definitivo no drone, com BEC de 5 V, UART para o computador de bordo e antena dipolo](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/LORA/evidencias/fig_diagrama_ligacao.png){w=10}
+![Diagrama de ligação: (a) protótipo de bancada com duas placas Heltec V3 e notebook de solo; (b) módulo definitivo no drone, com BEC de 5 V, UART para o computador de bordo e antena dipolo](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/LORA/evidencias/fig_diagrama_ligacao.png){w=15}
 
 Foram documentados quinze requisitos (R1 a R15), dos quais os principais estão resumidos a seguir com a natureza de cada valor.
 
@@ -672,16 +676,16 @@ Código e evidências: [repositório cerise-2026-lora-prototipo (privado)](https
 
 ## Segmentação da área de atuação entre drones
 
-Esta etapa corresponde à Atividade 13 do Objetivo 5: desenvolver um software funcional de segmentação da área de atuação entre os drones disponíveis. O problema consiste em dividir uma área poligonal georreferenciada entre uma frota possivelmente heterogênea, de modo que as aeronaves concluam a varredura em tempos próximos, e em gerar, para cada drone, uma missão de cobertura executável por um piloto automático. A validação foi exclusivamente algorítmica e em planta (2D), com um modelo cinemático simplificado e o polígono real de uma área do Campus Samambaia, sem simulação 3D de voo nem voos reais.
+Esta etapa corresponde à Atividade 13 do Objetivo 5: desenvolver um software funcional de segmentação da área de atuação entre os drones disponíveis. O problema consiste em dividir uma área poligonal georreferenciada entre uma frota possivelmente heterogênea, de modo que as aeronaves concluam a varredura em tempos próximos, e em gerar, para cada drone, uma missão de cobertura executável por um piloto automático. A validação desta etapa foi algorítmica e em planta (2D), com um modelo cinemático simplificado e o polígono real de uma área do Campus Samambaia; rotas geradas pelo mesmo método para um recorte de 11,27 ha dessa área foram depois percorridas na simulação 3D no Isaac Sim descrita adiante, sem SITL nem voos reais.
 
 ### Metodologia e implementação
 
-Foi desenvolvido o pacote Python `cerise_drones`, que recebe o polígono da área em GeoJSON, zonas proibidas com margem de segurança e a descrição da frota (velocidade, autonomia, reserva de bateria de 20 %, campo de visão da câmera, altitude de 40 m e base). O espaçamento entre linhas de varredura corresponde a 80 % da largura da pegada da câmera em nádir. Foram definidos três tipos de multirrotor com parâmetros representativos, sem correspondência com modelos comerciais: A (10 m/s, 20 min), B (6 m/s, 30 min) e C (14 m/s, 25 min). Foram comparados quatro métodos de partição:
+Foi desenvolvido o pacote Python `cerise_drones`, que recebe o polígono da área em GeoJSON, zonas proibidas com margem de segurança e a descrição da frota (velocidade, autonomia, reserva de bateria de 20 %, campo de visão da câmera, altitude de 40 m e base). O espaçamento entre linhas de varredura corresponde a 80 % da largura da pegada da câmera em nadir. Foram definidos três tipos de multirrotor com parâmetros representativos, sem correspondência com modelos comerciais: A (10 m/s, 20 min), B (6 m/s, 30 min) e C (14 m/s, 25 min). Foram comparados quatro métodos de partição:
 
 - **faixas ponderadas**: faixas paralelas à direção de varredura, com área proporcional ao peso de cada drone;
 - **k-means + Voronoi**: células de Voronoi dos centroides de um k-means, atribuídas aos drones pelo método húngaro [46], como linha de base clássica, sem ponderação;
-- **DARP em grade** [47]: atribuição das células de uma grade por distância geodésica a sementes, com balanceamento iterativo; além da pesagem multiplicativa original, foi implementada uma pesagem aditiva que gera regiões conexas, com retificação das fronteiras pelo algoritmo de Douglas–Peucker [48];
-- **DARP + refinamento por tempo**, proposto neste trabalho: sementes nos centros de um k-means ponderado e quatro iterações de reajuste dos pesos `w ← w·(T̄/T)^0,8`, em que `T` é o tempo de missão estimado de cada drone, mantendo-se a solução de menor *makespan* (maior tempo de missão da frota).
+- **DARP em grade** [47]: atribuição das células de uma grade por distância geodésica a sementes, com balanceamento iterativo; além da ponderação multiplicativa original, foi implementada uma ponderação aditiva que gera regiões conexas, com retificação das fronteiras pelo algoritmo de Douglas–Peucker [48];
+- **DARP + refinamento por tempo**, proposto neste trabalho: sementes nos centros de um k-means ponderado e quatro iterações de reajuste dos pesos `w ← w·(T̄/T)^0,8`, em que `T` é o tempo de missão estimado de cada drone e `T̄`, a média desses tempos na frota, mantendo-se a solução de menor *makespan* (maior tempo de missão da frota).
 
 Cada subárea recebe uma rota em boustrophedon [49] com a orientação de menor tempo estimado e trânsito por grafo de visibilidade em torno das zonas proibidas, com retorno à base para troca de bateria quando necessário. Para cada drone, são exportados um plano `.plan` do QGroundControl, arquivos KML e GeoJSON e um mapa interativo; os planos foram aprovados por um validador estrutural, mas ainda não foram abertos no QGroundControl nem executados em SITL. A avaliação utilizou o campo aberto do Campus Samambaia (polígono côncavo de 34,23 ha, obtido do OpenStreetMap [50]) e três cenários sintéticos (convexo e côncavos em L e em U, com zonas proibidas), com N = 2 a 6 drones e frotas homogênea e heterogênea, num total de 160 execuções, além de 70 de ablação. A suíte de 16 testes automatizados foi aprovada integralmente.
 
@@ -713,7 +717,7 @@ Tabela: Médias sobre os 4 cenários e N = 2 a 6 (20 casos por linha; vitórias 
 | Heterogênea | DARP | 12,04 | 1,119 | 0,075 | 1 |
 | Heterogênea | DARP + ref. | 10,96 | 1,007 | 0,028 | 16 |
 
-O DARP com refinamento por tempo obteve o menor *makespan* em 31 dos 40 casos, ficou em média a 0,7–0,8 % do melhor resultado de cada caso e reduziu o coeficiente de variação (CV) dos tempos de missão para 0,023–0,028, contra 0,055–0,308 dos demais métodos. Com frota heterogênea, o k-means/Voronoi, por não ser ponderado, ficou em média 50 % acima do melhor *makespan*. A cobertura rasterizada ficou entre 99,65 % e 100 % nas 160 execuções, e as medianas de tempo de execução foram de 0,4 a 1,2 s para os métodos de passo único e de 5,8 a 7,1 s para o DARP + refinamento. A ablação mostrou que a pesagem multiplicativa original não convergiu no polígono real da UFG (erro máximo de área de 24,9 %, contra 0,6 % a 1,2 % da pesagem aditiva) e que o refinamento por tempo foi o fator de maior ganho.
+O DARP com refinamento por tempo obteve o menor *makespan* em 31 dos 40 casos, ficou em média a 0,7–0,8 % do melhor resultado de cada caso e reduziu o coeficiente de variação (CV) dos tempos de missão para 0,023–0,028, contra 0,055–0,308 dos demais métodos. Com frota heterogênea, o método k-means/Voronoi, por não ser ponderado, ficou em média 50 % acima do melhor *makespan*. A cobertura rasterizada ficou entre 99,65 % e 100 % nas 160 execuções, e as medianas de tempo de execução foram de 0,4 a 1,2 s para os métodos de passo único e de 5,8 a 7,1 s para o DARP + refinamento. A ablação mostrou que a ponderação multiplicativa original não convergiu no polígono real da UFG (erro máximo de área de 24,9 %, contra 0,6 % a 1,2 % da ponderação aditiva) e que o refinamento por tempo foi o fator de maior ganho.
 
 ![Makespan em função do número de drones para os quatro métodos, por cenário (colunas) e tipo de frota (linhas)](E:/CERISE/RELATORIOS/2026/figuras/04_benchmark_makespan_sem_titulo.png){w=15}
 
@@ -732,7 +736,7 @@ As mensagens seguem a biblioteca `cerise_proto` v1 do protótipo LoRa, codificad
 ### Resultados
 
 Tabela: Efeito do abandono de um drone no plano da UFG com 4 drones heterogêneos: área perdida sem realocação, aumento do makespan por estratégia e custo LoRa sem confirmações (4 falhas por instante)
-| Instante da falha | Perda sem realocação (%) | *Makespan*, repartição (%) | *Makespan*, leilão (%) | Quadros LoRa (rep./leilão) | No ar em SF9, s (rep./leilão) |
+| Instante da falha | Perda sem realocação (%) | *Makespan*, repartição (%) | *Makespan*, leilão (%) | Quadros LoRa (rep./leilão) | Tempo no ar em SF9 (s) (rep./leilão) |
 |---|---|---|---|---|---|
 | 25 % do voo | 16,7 | +33,3 | +49,2 | 20,0 / 59,8 | 5,5 / 10,5 |
 | 50 % do voo | 9,5 | +18,3 | +32,2 | 15,0 / 38,5 | 4,0 / 6,8 |
@@ -745,7 +749,7 @@ Sem realocação, em média 9,2 % da área permanece descoberta, chegando a 26,4
 
 ![Estado final das três estratégias para a falha de D3 a 50 % do voo: sem realocação (82,8 % de cobertura), repartição (+32,2 % de makespan, 14 quadros LoRa) e leilão (+51,6 %, 58 quadros)](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/evidencias/07_colaboracao_estrategias.png){w=15}
 
-Os tempos no ar dos tipos do `cerise_proto` v1 foram apresentados na subseção de comunicação LoRa; a tabela a seguir traz os da extensão proposta.
+Os tempos no ar dos tipos do `cerise_proto` v1 foram apresentados na seção 4.12; a tabela a seguir traz os da extensão proposta.
 
 Tabela: Tamanho e tempo no ar das mensagens da extensão proposta (BW 125 kHz, CR 4/5)
 | Mensagem | Quadro (B) | SF7 (ms) | SF9 (ms) | SF10 (ms) |
@@ -762,7 +766,7 @@ Esta etapa corresponde ao item 1 do Objetivo 5: planejamento e adequação de um
 
 ### Dados, treinamento e resultados
 
-As categorias *pedestrian* e *people* do VisDrone2019-DET foram unidas numa classe *pessoa*: o treino tem 6.471 imagens e 106.396 pessoas; a validação, 548 imagens e 13.969 pessoas; e o test-dev, 1.610 imagens e 27.382 pessoas. O treinamento e a avaliação foram executados na estação DGX Spark, com a biblioteca Ultralytics 8.4.189 [53] e GPU compartilhada, com uso de memória limitado a 7,5 GB (pico de 6,5 GB). No GB10, o *autocast* em FP16 produziu valores NaN, razão pela qual treino e inferência foram feitos em FP32. O ajuste fino partiu do YOLO11s com pesos COCO, com imagens de 960 px, lote 4 e limite de tempo de 0,8 h, o que resultou em 5 épocas em 48,7 min.
+As categorias *pedestrian* e *people* do VisDrone2019-DET foram unidas numa classe *pessoa*: o treino tem 6.471 imagens e 106.396 pessoas; a validação, 548 imagens e 13.969 pessoas; e o test-dev, 1.610 imagens e 27.382 pessoas. O treinamento e a avaliação foram executados na estação DGX Spark, com a biblioteca Ultralytics 8.4.189 [53] e GPU compartilhada, com uso de memória limitado a 7,5 GB (pico de 6,5 GB). No GB10, o *autocast* em FP16 produziu valores NaN, razão pela qual treino e inferência foram feitos em FP32. O ajuste fino partiu do YOLO11s com pesos COCO, com imagens de 960 px, lote 4 e limite de tempo de 0,8 h (o treino conclui a época em curso), o que resultou em 5 épocas em 48,7 min.
 
 Tabela: Classe pessoa no VisDrone2019-DET (validador Ultralytics, FP32, conf 0,001, IoU 0,7)
 | Modelo | Resolução (px) | Conjunto | mAP50 | mAP50-95 | Revocação |
@@ -787,17 +791,17 @@ O modelo ajustado reduziu o MAE em cerca de 30 % na validação e 23 % no test-d
 
 ![Métricas de detecção e contagem: mAP de pessoa na validação para os modelos COCO (com o limite padrão de 300 detecções) e o ajustado; MAE da contagem em função do limiar; e pessoas detectadas versus anotadas por imagem no test-dev](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/evidencias/14_deteccao_metricas.png){w=15}
 
-![Exemplos da validação do VisDrone com as detecções do modelo ajustado (limiar 0,175) e as contagens real e detectada por imagem](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/evidencias/15_deteccao_exemplos.png){w=12}
+![Exemplos da validação do VisDrone com as detecções do modelo ajustado (limiar 0,175, exibido como “0.17” nos rótulos) e as contagens real e detectada por imagem](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/evidencias/15_deteccao_exemplos.png){w=12}
 
 ### Agregação das contagens entre drones
 
-Como as subáreas são disjuntas, a contagem total é a soma das contagens de cada subárea, desde que cada pessoa seja contada uma única vez. O método implementado (`cerise_drones.agregacao`) georreferencia cada detecção pela posição, altitude e rumo do drone (câmera em nádir e terreno plano); atribui a detecção apenas ao drone dono da subárea em que o ponto cai (regra de posse); agrupa detecções a menos de um raio `r` para eliminar repetições entre fotos sobrepostas; e, numa faixa de fronteira, faz o agrupamento entre drones, que trocariam as detecções de borda por mensagens COUNT_REPORT.
+Como as subáreas são disjuntas, a contagem total é a soma das contagens de cada subárea, desde que cada pessoa seja contada uma única vez. O método implementado (`cerise_drones.agregacao`) georreferencia cada detecção pela posição, altitude e rumo do drone (câmera em nadir e terreno plano); atribui a detecção apenas ao drone dono da subárea em que o ponto cai (regra de posse); agrupa detecções a menos de um raio `r` para eliminar repetições entre fotos sobrepostas; e, numa faixa de fronteira, faz o agrupamento entre drones, que trocariam as detecções de borda por mensagens COUNT_REPORT.
 
 A lógica foi validada apenas por simulação, com 348 pessoas sintéticas estáticas no plano da UFG, 619 fotos e ruído de georreferenciamento σ. Com detector ideal, σ = 0,8 m e r = 3 m, a soma ingênua superestimou a contagem em 300,5 %, a deduplicação sem regra de posse em 6,8 ± 3,4 %, e o método proposto errou −1,1 ± 1,8 %. A regra de posse deslocou a estimativa para baixo em 7,4 a 19,9 pontos percentuais nas configurações simuladas, o que reduz o erro quando há sobrecontagem, mas acentua a subcontagem quando o raio é grande em relação a σ (com σ = 0,3 m e r = 2 m, de +4,0 % para −6,8 %). Com a revocação e a precisão medidas (0,473 e 0,638) e falsos positivos independentes entre fotos, hipótese pessimista, o erro foi de +102,7 %, dominado pelos falsos positivos.
 
 ### Requisitos, discussão e limitações
 
-A adequação física dos drones não foi executada por depender de hardware. Além do módulo LoRa, foram levantados como requisitos: câmera em nádir com pelo menos 12 MP (resolução no solo inferior a 1,5 cm/pixel a 40 m) e disparo por distância; processamento das imagens na estação de solo após o pouso, cenário validado nesta etapa, ou em computador embarcado, o que exige revisar massa e autonomia; e GNSS com correção RTK ou PPK, que permite raios de deduplicação de 1 a 2 m. O ajuste fino foi curto (5 épocas), e o VisDrone contém majoritariamente imagens oblíquas de cenas urbanas, distintas das imagens em nádir a 40 m previstas para o campus; a agregação foi validada apenas com pessoas sintéticas, e o resultado com o detector medido indica a necessidade de confirmação multivista antes do uso operacional. Os próximos passos incluem coletar e anotar imagens próprias do campus e treinar por mais épocas.
+A adequação física dos drones não foi executada por depender de hardware. Além do módulo LoRa, foram levantados como requisitos: câmera em nadir com pelo menos 12 MP (resolução no solo inferior a 1,5 cm/pixel a 40 m) e disparo por distância; processamento das imagens na estação de solo após o pouso, cenário validado nesta etapa, ou em computador embarcado, o que exige revisar massa e autonomia; e GNSS com correção RTK ou PPK, que permite raios de deduplicação de 1 a 2 m. O ajuste fino foi curto (5 épocas), e o VisDrone contém majoritariamente imagens oblíquas de cenas urbanas, distintas das imagens em nadir a 40 m previstas para o campus; a agregação foi validada apenas com pessoas sintéticas, e o resultado com o detector medido indica a necessidade de confirmação multivista antes do uso operacional. Os próximos passos incluem coletar e anotar imagens próprias do campus e treinar por mais épocas.
 
 Código e evidências da segmentação, da colaboração e da detecção: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
 
@@ -807,7 +811,7 @@ A etapa anterior mediu o detector YOLO11s ajustado em imagens estáticas. A miss
 
 ### Dados e metodologia
 
-Foram usadas as partições val (7 sequências, 2.846 quadros) e test-dev (17 sequências, 6.635 quadros, gabarito público) do VisDrone2019-MOT [52], obtidas dos links oficiais e conferidas por SHA-256. A classe pessoa reúne `pedestrian` e `people`, e as regiões marcadas como ignoradas são excluídas, como no protocolo do conjunto. O test-dev contém 1.012 pessoas distintas em cenas majoritariamente oblíquas e urbanas, com resoluções de 680×382 a 3840×2160 e de 1 a 109 pessoas por quadro.
+Foram usadas as partições val (7 sequências, 2.846 quadros) e test-dev (17 sequências, 6.635 quadros, gabarito público) do VisDrone2019-MOT [52], obtidas dos links oficiais e conferidas por SHA-256. A classe pessoa reúne `pedestrian` e `people`, e as regiões marcadas como ignoradas são excluídas, como no protocolo do conjunto. O test-dev contém 1.012 pessoas distintas em cenas majoritariamente oblíquas e urbanas, com resoluções de 680×382 a 2720×1530 e média de 1,1 a 109,3 pessoas por quadro nas 16 sequências com pessoas (até 148 em um único quadro); a sequência restante não contém pessoas.
 
 Foram avaliados quatro detectores em FP32: o YOLO11s ajustado no VisDrone-DET, a 960 e a 1280 px, e o YOLO11s com pesos COCO nas mesmas resoluções, como referência [53]. As detecções foram calculadas uma vez e guardadas em cache, com confiança mínima de 0,01. Sobre elas rodaram, sem modificação de código, os rastreadores do Ultralytics: ByteTrack [54] e BoT-SORT [55], este com compensação de movimento de câmera (GMC, fluxo óptico esparso) e sem reidentificação por aparência.
 
@@ -838,38 +842,38 @@ O resultado central para a missão é que contar IDs do rastreador não é conta
 - 861 IDs falsos, isto é, trilhas curtas sobre falsos positivos;
 - 1.234 IDs associados a 816 pessoas, o que corresponde a 418 IDs extras por troca ou fragmentação.
 
-Outras 196 pessoas nunca foram rastreadas. O filtro por comprimento mínimo troca inflação por subcontagem: com L = 60, o total cai para 584 (−42 %). O melhor resultado sem vazamento, do COCO a 960 px com L = 10, ainda tem 29 % de erro relativo médio por sequência.
+Outras 196 pessoas nunca foram rastreadas. O filtro por comprimento mínimo troca inflação por subcontagem: com L = 60, o total cai para 584 (−42 %). Entre as configurações com L escolhido apenas no val, isto é, sem uso do test-dev, a melhor, do COCO a 960 px com L = 10, ainda tem 29 % de erro relativo médio por sequência.
 
 ![Pessoas únicas por sequência do test-dev (gabarito, IDs brutos e IDs com ≥ L quadros) e decomposição dos IDs brutos em IDs falsos, IDs extras por troca ou fragmentação e pessoas nunca rastreadas](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/validacao_videos/evidencias/v03_contagem_unica.png){w=14}
 
-A escala da pessoa na imagem, que funciona como indicador da altitude, foi o fator mais associado ao desempenho, com correlação de Spearman ρ = 0,62 (p = 0,011) entre a altura mediana e o HOTA. A revocação do ajustado foi de 12 % abaixo de 20 px de altura, 30 % entre 20 e 40 px, 56 % entre 40 e 80 px e 66 % acima de 80 px; para o COCO, os valores foram 2 %, 15 %, 43 % e 75 %. O ajuste no VisDrone compensa justamente a faixa de pessoas pequenas de uma missão em nádir a 40 m. Quanto à vazão, o pipeline com BoT-SORT rodou a 23,0 quadros/s em 4K e a 68,9 quadros/s em 1344×756, com no máximo 0,33 GB de GPU.
+A escala da pessoa na imagem, que funciona como indicador da altitude, foi o fator mais associado ao desempenho, com correlação de Spearman ρ = 0,62 (p = 0,011) entre a altura mediana e o HOTA. A revocação do ajustado foi de 12 % abaixo de 20 px de altura, 30 % entre 20 e 40 px, 56 % entre 40 e 80 px e 66 % acima de 80 px; para o COCO, os valores foram 2 %, 15 %, 43 % e 75 %. O ajuste no VisDrone compensa justamente a faixa de pessoas pequenas de uma missão em nadir a 40 m. Quanto à vazão, o pipeline com BoT-SORT rodou a 23,0 quadros/s em 4K e a 68,9 quadros/s em 1344×756, com no máximo 0,33 GB de GPU.
 
 ![Revocação por faixa de altura da pessoa e natureza dos falsos positivos do rastreador no test-dev (ajustado 960 × COCO 1280, com BoT-SORT)](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/validacao_videos/evidencias/v14_analise_erros.png){w=14}
 
-Três decisões foram levadas para a simulação: usar o detector ajustado com BoT-SORT e GMC; tratar as trilhas apenas como agregadoras de uma mesma passagem; e fazer a contagem única pela posição projetada no solo, não pelos IDs. Como limitações, o VisDrone2019-MOT é oblíquo, urbano e filmado a baixa altura, ao passo que a missão da UFG é em nádir sobre um campus. Além disso, o val tem só 7 sequências e o TrackEval original não foi executado.
+Três decisões foram levadas para a simulação: usar o detector ajustado com BoT-SORT e GMC; tratar as trilhas apenas como agregadoras de uma mesma passagem; e fazer a contagem única pela posição projetada no solo, não pelos IDs. Como limitações, o VisDrone2019-MOT é oblíquo, urbano e filmado a baixa altura, ao passo que a missão da UFG é em nadir sobre um campus. Além disso, o val tem só 7 sequências e o TrackEval original não foi executado.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
+Código e evidências: [cerise-2026-drones-segmentacao](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao) (privado)
 
 ## Simulação 3D de drones contando pessoas
 
-Para fechar o ciclo entre a partição da área, o detector e a validação em vídeo, foi construída uma simulação fotorrealista no NVIDIA Isaac Sim 5.1 [60], executada sem tela (headless) no DGX Spark. A cena reproduz um recorte de 11,27 ha da área aberta da UFG, com terreno, caminhos, 14 edifícios esquemáticos e 78 árvores gerados a partir do polígono do OpenStreetMap. Quatro drones percorrem as rotas DARP + refinamento [47] da frota heterogênea, em nádir a 40 m (1280×960, campo de visão horizontal de 70°). Na cena caminham **80 pessoas animadas**: caminhantes, grupos andando ou parados e pessoas que cruzam as fronteiras entre subáreas.
+Para fechar o ciclo entre a partição da área, o detector e a validação em vídeo, foi construída uma simulação fotorrealista no NVIDIA Isaac Sim 5.1 [60], executada sem tela (headless) no DGX Spark. A cena reproduz um recorte de 11,27 ha da área aberta da UFG, com terreno, caminhos, 14 edifícios esquemáticos e 78 árvores gerados a partir do polígono do OpenStreetMap. Quatro drones percorrem as rotas DARP + refinamento [47] da frota heterogênea, em nadir a 40 m (1280×960 e campo de visão horizontal de 70°; no D3, grande-angular, 1280×720 e 82°). Na cena caminham **80 pessoas animadas**: caminhantes, grupos andando ou parados e pessoas que cruzam as fronteiras entre subáreas.
 
-As pessoas usam os personagens e o comportamento do `omni.anim.people`, e seguem os comandos do plano sobre uma navmesh. O Replicator grava, a 5 fps, por câmera: RGB, caixas 2D de gabarito e a pose; o gabarito de posição é a posição real de cada personagem. A licença foi aceita pelo bolsista, sem telemetria, e os ativos oficiais (0,55 GB) foram espelhados localmente. Nada foi exposto à rede externa.
+As pessoas usam personagens e comportamentos do `omni.anim.people` e seguem os comandos do plano sobre uma navmesh. O Replicator grava, a 5 fps, por câmera: RGB, caixas 2D de gabarito e a pose; o gabarito de posição é a posição real de cada personagem. A licença foi aceita pelo bolsista, sem telemetria, e os ativos oficiais (0,55 GB) foram espelhados localmente. Nada foi exposto à rede externa.
 
-Os testes de fumaça revelaram duas falhas de API, ambas corrigidas:
+Os testes de fumaça revelaram quatro divergências de API, todas corrigidas; entre elas:
 
 - o esqueleto `biped_demo` ausente impedia o grafo de animação;
 - o volume da navmesh ficava restrito a ±4,5 m da origem, o que fazia as pessoas andarem em linha reta.
 
-Depois das correções, as caixas do Replicator coincidiram com a projeção do gabarito pela pose, com erro mediano de 2,8 px. O voo a 40 m (866 instantes × 5 câmeras, incluindo a visão geral) levou 21,0 min, ou 1,46 s por instante. Ele ocupou ~18 a 21 GB de memória unificada e manteve sempre mais de 24 GB livres no Spark. Foi feito também um voo a 30 m (1.001 instantes). O maior lado mediano das caixas de gabarito foi de 21 px a 40 m e de 31 px a 30 m.
+Depois das correções, as caixas do Replicator coincidiram com a projeção do gabarito pela pose, com erro mediano de 2,8 px. O voo a 40 m (866 instantes × 5 câmeras, incluindo a visão geral) levou 21,0 min, ou 1,46 s por instante. Ele ocupou de 18 a 21 GB de memória unificada e manteve sempre mais de 24 GB livres no Spark. Foi feito também um voo a 30 m (1.001 instantes). O maior lado mediano das caixas de gabarito foi de 21 px a 40 m e de 31 px a 30 m.
 
-![Cena renderizada no Isaac Sim: visão geral com os quatro drones e câmera do D4 em nádir a 40 m com as caixas de gabarito do Replicator](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_09_cena_render.png){w=14}
+![Cena renderizada no Isaac Sim: visão geral com os quatro drones e câmera do D4 em nadir a 40 m com as caixas de gabarito do Replicator](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_09_cena_render.png){w=14}
 
-Como a visão geral e a câmera a 40 m não mostram o realismo da cena, foi renderizado um trecho de 14 s (24 quadros/s, 1920×1080) com uma câmera baixa e oblíqua, a 5,2 m de altura e a 9,5–15 m de um grupo de três pessoas animadas, enquanto um quadricóptero de 0,9 m passa sobre elas a 8,5 m. A câmera fica 24° para baixo e, na passagem, recua e levanta o enquadramento para incluir o drone; a cena usa céu HDRI, texturas fotográficas no chão e sombras do RTX em tempo real. Os 337 quadros, com os da câmera do drone, levaram 9,5 min no Spark (1,66 s por quadro), com pico de 12,4 GiB no contêiner e no mínimo 25,0 GB livres no Spark, e o clipe (`sim_closeup.mp4`, 12,1 MB) acompanha o relatório. Na câmera do drone, o YOLO11s encontra 80 % das pessoas a 18–30 m em visada oblíqua, mas quase nenhuma abaixo de 10 m, quando elas são vistas de cima.
+Como a visão geral e a câmera a 40 m não mostram o realismo da cena, foi renderizado um trecho de 14 s (24 quadros/s, 1920×1080) com uma câmera baixa e oblíqua, a 5,2 m de altura e a 9,5–15 m de um grupo de três pessoas animadas, enquanto um quadricóptero de 0,9 m passa sobre elas a 8,5 m. A câmera fica 24° para baixo e, na passagem, recua e levanta o enquadramento para incluir o drone; a cena usa céu HDRI, texturas fotográficas no chão e sombras do RTX em tempo real. Os 337 quadros, com os da câmera do drone, levaram 9,5 min no Spark (1,66 s por quadro gravado, descontado o avanço inicial da simulação), com pico de 13,3 GB no contêiner e no mínimo 25,0 GB livres no Spark, e o clipe ([sim_closeup.mp4](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao/blob/main/simulacao/evidencias/sim_closeup.mp4), 12,1 MB) está no repositório cerise-2026-drones-segmentacao. Na câmera do drone, o YOLO11s encontra 80 % das pessoas a 18–30 m em visada oblíqua, mas quase nenhuma abaixo de 10 m, quando elas são vistas de cima.
 
 ![Close-up no Isaac Sim: (a) grupo de três pessoas animadas visto de 5,2 m de altura, 24° para baixo; (b) quadricóptero a 8,5 m passando sobre o grupo, com a sombra no gramado; (c) detalhe do drone; (d) detalhe das pessoas e das sombras](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_19_closeup_pessoas_drone.png){w=15}
 
-![Câmera do drone no close-up a 20 m, 14,5 m e 8,3 m do grupo, com as caixas do gabarito (verde) e do YOLO11s (vermelho), e precisão e revocação do detector por faixa de distância](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_20_closeup_camera_drone.png){w=15}
+![Câmera do drone no close-up a 20,3 m, 14,5 m e 8,3 m do grupo, com as caixas do gabarito (verde) e do YOLO11s (vermelho), e precisão e revocação do detector por faixa de distância](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_20_closeup_camera_drone.png){w=15}
 
 A contagem usa o YOLO11s ajustado (FP32, 1280 px) e projeta cada trilha no solo com a pose da câmera. Em seguida, aplica a posse da subárea, com faixa de fronteira de 6 m, e a deduplicação espaço-temporal pela posição. O detector localiza bem as pessoas simuladas: AP de 0,702 a IoU 0,5 a 40 m e de 0,652 a 30 m. As pontuações, porém, ficaram baixas no domínio simulado: no limiar 0,40 a precisão é de 0,998 e a revocação, de 0,230. O detector roda a 82 a 89 FPS, ou 56 a 60 FPS com leitura e GMC.
 
@@ -897,9 +901,9 @@ As duplicatas vêm sobretudo do mesmo drone, por pessoas andando que são revist
 
 ![Sensibilidade da contagem única ao limiar do BoT-SORT (com e sem fuse_score) e à confiança mínima do rastreador no solo, a 40 m e a 30 m](E:/CERISE/FRENTES/NAVEGACAO AUTONOMA/DRONES_SEGMENTACAO/simulacao/evidencias/sim_15_sensibilidade_rastreador.png){w=14}
 
-Um vídeo H.264 de 57,7 s acompanha a seção. Ele mostra a visão geral com os drones em voo e as pessoas caminhando, além das câmeras dos drones com caixas, contagem atual e contagem acumulada.
+O vídeo [sim_video_run01.mp4](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao/blob/main/simulacao/evidencias/sim_video_run01.mp4) (H.264, 57,7 s), guardado no repositório cerise-2026-drones-segmentacao, mostra a visão geral com os drones em voo e as pessoas caminhando, além das câmeras dos drones com caixas, contagem atual e contagem acumulada.
 
-O cenário completo (34,2 ha, 120 pessoas) não foi renderizado. A assadura da navmesh de 1.330 × 998 m consumiu mais de 34 GB em ~22 s e provocou um OOM do sistema, apesar de o vigia de memória ter interrompido o contêiner. O OOM reiniciou o worker do servidor 3D, que voltou sozinho; os serviços de produção não foram afetados. Os scripts passaram a impor limite de memória ao contêiner e um vigia mais rápido.
+O cenário completo (34,2 ha, 120 pessoas) não foi renderizado. A geração (*bake*) da navmesh de 1.330 × 998 m consumiu mais de 34 GB em ~22 s; o vigia de memória chegou a interromper o contêiner, mas não a tempo de evitar o esgotamento da memória do sistema (OOM, *out of memory*). O OOM reiniciou o worker do servidor 3D, que voltou sozinho; os serviços de produção não foram afetados. Os scripts passaram a impor limite de memória ao contêiner e um vigia mais rápido.
 
 Ficam como limitações o terreno procedural, a atitude ideal dos drones (sem vento, borrão ou erro de pose), a velocidade fixa de caminhada, a diferença de domínio das pontuações do detector, apenas dois voos e a altitude confundida com o plano de voo. O plano B com Gazebo e PX4 SITL não foi necessário. Os próximos passos são:
 
@@ -907,11 +911,11 @@ Ficam como limitações o terreno procedural, a atitude ideal dos drones (sem ve
 - repetir o cenário completo com a navmesh por subárea;
 - validar em voo real no campus.
 
-Código e evidências: [repositório cerise-2026-drones-segmentacao (privado)](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao)
+Código e evidências: [cerise-2026-drones-segmentacao](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao) (privado)
 
 ## Produção científica: artigos publicados e pôster
 
-Esta subseção corresponde à parte de divulgação científica da Atividade 14, que prevê a escrita de artigo e sua submissão a congressos, simpósios ou periódicos com os resultados do projeto. Em 2026, o modelo de estimação de pose de braço robótico desenvolvido no projeto, o mesmo que serviu de ponto de partida para as Atividades 8 e 9 deste relatório, foi publicado em dois eventos, ambos sob o título *Estimated Position of the Moving Axes of a Mechanical Arm from an Unknown State*: no MEDER 2026 [61] e no Congresso Brasileiro de Automática (CBA 2026), realizado em São Paulo em edição especial de 50 anos [62], no qual o trabalho também foi apresentado em pôster.
+Esta subseção corresponde à parte de divulgação científica da Atividade 14, que prevê a escrita de artigo e sua submissão a congressos, simpósios ou periódicos com os resultados do projeto. Em 2026, o modelo de estimação de pose de braço robótico desenvolvido no projeto, o mesmo que serviu de ponto de partida para as Atividades 8 e 9 deste relatório, foi publicado em dois eventos, ambos sob o título *Estimated Position of the Moving Axes of a Mechanical Arm from an Unknown State*: no International Symposium on Mechanism Design for Robotics (MEDER 2026) [61] e no Congresso Brasileiro de Automática (CBA 2026), realizado em São Paulo em edição especial de 50 anos [62], no qual o trabalho também foi apresentado em pôster.
 
 Tabela: Artigos e pôster publicados em 2026 com os resultados do projeto
 | Produção | Autores | Evento | Formato |
@@ -919,23 +923,23 @@ Tabela: Artigos e pôster publicados em 2026 com os resultados do projeto
 | Artigo completo (8 páginas) | E. M. C. Caixeta; L. J. B. Gonçalves; A. A. Cardoso | MEDER 2026 | Artigo |
 | Artigo completo (6 páginas) | E. M. C. Caixeta; A. A. Cardoso; R. F. Almeida | CBA 2026 (São Paulo – SP) | Artigo e pôster |
 
-Os trabalhos propõem estimar a pose 3D de um manipulador articulado de 7 graus de liberdade (Franka Emika Panda) a partir de uma única imagem RGB, sem conhecimento prévio dos estados das juntas. A abordagem parte da arquitetura holística HRPE de Ban et al. [29] e acrescenta características de profundidade extraídas pelo Depth Anything V2 [30] (mapas de profundidade e de calor), que são concatenadas, comprimidas e fundidas ao ramo HRNet-32 sem alterar a estrutura original da rede. O treinamento ocorre em três etapas — pré-treino da DepthNet com dados sintéticos, treino do modelo completo com dados sintéticos e refinamento autossupervisionado com dados reais, guiado por consistência cinemática e de segmentação com renderização diferenciável —, a mesma metodologia relatada em dezembro de 2025.
+Os trabalhos propõem estimar a pose 3D de um manipulador articulado de 7 graus de liberdade (Franka Emika Panda) a partir de uma única imagem RGB, sem conhecimento prévio dos estados das juntas. A abordagem parte da arquitetura holística HRPE de Ban et al. [29] e acrescenta características de profundidade extraídas pelo Depth Anything V2 [30] (mapas de profundidade e de calor), que são concatenadas, comprimidas e fundidas ao ramo HRNet-W32 sem alterar a estrutura original da rede. O treinamento ocorre em duas fases, a sintética e a autossupervisionada, divididas em três etapas — pré-treino da DepthNet com dados sintéticos, treino do modelo completo com dados sintéticos e refinamento autossupervisionado com dados reais, guiado por consistência cinemática e de segmentação com renderização diferenciável —, a mesma metodologia relatada em dezembro de 2025.
 
-No conjunto real do benchmark DREAM (câmera RealSense), o método atingiu 75,4 % de acurácia de pontos-chave com limiar de 60 mm, ligeiramente acima do RoboPose (74,3 %) e da HRPE (75,2 %), usando apenas 8.000 amostras sintéticas de treino, contra mais de 26.000 na HRPE — uma redução de cerca de 70 % dos dados sintéticos e do custo de treino por época. Os dois artigos agradecem à FUNAPE pelo apoio financeiro por meio da bolsa do projeto "Implantação do CERISE – Centro de Excelência em Redes Inteligentes Sem Fio e Serviços Avançados". A figura a seguir mostra a primeira página dos dois artigos, e a seguinte, o pôster apresentado no CBA 2026.
+No conjunto real do benchmark DREAM (câmera RealSense), o método atingiu 75,4 % de acurácia ADD com limiar de 60 mm (ADD@60 mm), ligeiramente acima do RoboPose (74,3 %) e da HRPE (75,2 %), usando apenas 8.000 amostras sintéticas de treino, contra mais de 26.000 na HRPE — uma redução de cerca de 70 % dos dados sintéticos e do custo de treino por época. Os dois artigos agradecem à FUNAPE pelo apoio financeiro por meio da bolsa do projeto "Implantação do CERISE – Centro de Excelência em Redes Inteligentes Sem Fio e Serviços Avançados". A figura a seguir mostra a primeira página dos dois artigos, e a seguinte, o pôster apresentado no CBA 2026.
 
 ![Primeira página dos artigos publicados: (a) MEDER 2026; (b) CBA 2026](E:/CERISE/RELATORIOS/2026/figuras/producao_eventos/fig_artigos_primeira_pagina.png){w=15}
 
 ![Pôster apresentado no CBA 2026, com a metodologia (fusão de profundidade do Depth Anything V2 à HRPE), a comparação com o estado da arte e as conclusões](E:/CERISE/RELATORIOS/2026/figuras/producao_eventos/fig_banner_cba2026.jpg){w=10}
 
-Os artigos tratam do robô Panda e dos dados do DREAM; os resultados de 2026 com o braço servo6dof, o novo dataset e o gêmeo digital (Atividades 7 a 12) ainda não foram publicados e constituem o próximo trabalho de divulgação.
+Os artigos tratam do robô Panda e dos dados do DREAM; os resultados de 2026 com o braço servo6dof, o novo dataset e o gêmeo digital (Atividades 7 a 9, 11 e 12) ainda não foram publicados e constituem o próximo trabalho de divulgação.
 
 ## Participação no CERISE Summit 2026
 
 O bolsista participou do CERISE Summit 2026, evento de extensão organizado pelo CERISE UFG na Escola de Engenharia Elétrica, Mecânica e de Computação, cadastrado na PROEX UFG sob o código EV308-2026 e realizado em 18 de setembro de 2026. A participação ocorreu em duas funções, cada uma com carga horária de 10 horas: como expositor nas apresentações de projetos e de protótipos e como monitor do evento, conforme os certificados reproduzidos adiante.
 
-Na sessão de apresentações, os projetos e protótipos do centro foram expostos em estandes ao público visitante, com demonstrações de robótica móvel, de realidade virtual e aumentada e painéis dos trabalhos, como ilustra a figura a seguir. Para o evento foi preparado, no aplicativo CERISE AR, o modo de jogo "Caça CERISE", uma caça ao tesouro em realidade aumentada com personagens animados e classificação por tempo, distribuído aos aparelhos por atualização remota (OTA).
+Na sessão de apresentações, os projetos e protótipos do centro foram expostos em estandes ao público visitante, com demonstrações de robótica móvel e de realidade virtual e aumentada, além de painéis dos trabalhos, como ilustra a figura a seguir. Para o evento foi preparado, no aplicativo CERISE AR, o modo de jogo "Caça CERISE", uma caça ao tesouro em realidade aumentada com personagens animados e classificação por tempo, distribuído aos aparelhos por atualização remota (OTA).
 
-![Registros do CERISE Summit 2026: (a)–(e) estandes de projetos e protótipos, com demonstrações de robótica móvel, realidade virtual e aumentada; (f) equipe e visitantes do evento](E:/CERISE/RELATORIOS/2026/figuras/producao_eventos/fig_summit2026_mosaico.jpg){w=16}
+![Registros do CERISE Summit 2026: (a)–(e) estandes de projetos e protótipos, com demonstrações de robótica móvel, realidade virtual e aumentada; (f) equipe e visitantes do evento](E:/CERISE/RELATORIOS/2026/figuras/producao_eventos/fig_summit2026_mosaico.jpg){w=14.5}
 
 ![Certificados do CERISE Summit 2026: (a) expositor das apresentações de projetos e protótipos; (b) monitor do evento](E:/CERISE/RELATORIOS/2026/figuras/producao_eventos/fig_certificados_summit2026.png){w=16}
 
@@ -946,12 +950,12 @@ A tabela a seguir compara as 14 atividades do plano de trabalho, e os itens do O
 Tabela: Situação das atividades do plano de trabalho 2026
 | Atividade | Entrega prevista | Situação | Observação |
 |---|---|---|---|
-| 1. Análise comparativa de modelos de geração 3D | Comparação de redes de geração 3D com textura e seleção do modelo | Concluída | 10 modelos levantados e 6 medidos; seleção concluída; SF3D, SPAR3D e TRELLIS.2 aguardam aceite de licença pelo bolsista; TRELLIS sem pacote aarch64 |
+| 1. Análise comparativa de modelos de geração 3D | Comparação de redes de geração 3D com textura e seleção do modelo | Concluída | 10 modelos levantados e 6 medidos; seleção concluída; SF3D, SPAR3D e TRELLIS.2 aguardam aceite de licença no Hugging Face; TRELLIS sem pacote aarch64 |
 | 2. Aplicativo com geração 3D | Versão funcional do aplicativo com objetos 3D texturizados | Concluída | Validada no emulador Android contra o servidor real, apenas na rede interna; RA dos modelos gerados não validada (exige aparelho físico); uso externo depende da exposição do servidor |
 | 3. Aplicativo otimizado e relatório de desempenho | Otimização e relatório de desempenho | Parcial | Tempos medidos; tamanhos de GLB a remedir após a correção da textura |
 | 4. Validação | Relatório de validação e resultados experimentais | Concluída | 58/58 testes; sem fotos tiradas pela câmera do celular |
 | 5. Integração e servidor | Análise de gargalos e servidor para múltiplas requisições | Concluída | Erro de 90,9 % para 0 %; servidor não exposto publicamente |
-| 6. Play Store | Publicação do aplicativo | Parcial | Pacote pronto e verificado; publicação depende de login do bolsista e de decisões pendentes |
+| 6. Play Store | Publicação do aplicativo | Parcial | Pacote pronto e verificado; publicação depende das etapas no Play Console e de decisões pendentes |
 | 7. Dataset | Dataset estruturado e documentado | Concluída | Braço virtual; 5.000 poses e 30.000 imagens |
 | 8. Resultados do modelo | Resultados do modelo de pose de 2025 no novo dataset | Concluída | ADD@60 mm de 68,0 %; dados sintéticos |
 | 9. Avaliação | Avaliação de precisão e robustez | Concluída | Somente em simulação, sem imagens reais |
@@ -966,21 +970,23 @@ Tabela: Situação das atividades do plano de trabalho 2026
 
 Das 14 atividades numeradas, 10 foram concluídas e 4 ficaram parciais. Dos itens adicionais, os algoritmos de colaboração foram concluídos em simulação, o item 1 do Objetivo 5 ficou parcial e os itens 3 e 4 do Objetivo 5 ficaram pendentes, por falta de hardware. Todas as conclusões, porém, têm ressalvas que precisam ser explicitadas. As atividades com robótica foram realizadas inteiramente em simulação, com o braço virtual servo6dof, e a validação com o braço físico e com imagens reais não foi feita. A segmentação de áreas e a contagem de pessoas foram validadas em nível algorítmico e numa simulação 3D fotorrealista dos voos no Isaac Sim, e a colaboração entre drones apenas em nível algorítmico; nenhum voo real foi realizado. Os tempos de geração 3D, de servidor e de inferência foram medidos numa estação compartilhada com serviços de IA em produção e devem ser lidos como limites superiores.
 
-As pendências decorrem de cinco causas principais. A primeira é a falta de hardware: as placas LoRa e as antenas não foram adquiridas, de modo que o protótipo LoRa (Atividade 10) não passou pelo ensaio físico entre dois dispositivos e, no Objetivo 5, a construção dos módulos de comunicação definitivos e a adequação dos drones ficaram apenas em projeto, assim como a adequação física dos drones para a detecção e a contagem de pessoas; também a validação da RA dos modelos gerados depende de um aparelho físico. A segunda são as ações que exigem autenticação do bolsista: a publicação na Play Store (Atividade 6) depende do Play Console, e a ampliação do *benchmark* de geração 3D aos modelos de acesso restrito (Stable Fast 3D, SPAR3D e TRELLIS.2), não necessária para a seleção já realizada, depende do aceite de licenças no Hugging Face. A terceira é a decisão, ainda não tomada, sobre a exposição pública do servidor de geração 3D e do visualizador do gêmeo digital: nada foi exposto à internet, e o aplicativo só funcionará fora da rede interna depois dessa exposição; a publicação da política de privacidade no endereço público previsto também aguarda decisão. A quarta é um defeito encontrado no fim do período: a recodificação da textura em JPEG não ocorria no pipeline empacotado, o que invalidou os tamanhos de arquivo medidos na rodada de *presets* (Atividade 3); o defeito foi corrigido no servidor e no repositório, mas a rodada ainda precisa ser refeita. A quinta é a calibração física do modelo digital do braço (Atividade 11), que depende do CAD ou de medições do braço físico. Quanto à Atividade 14, além deste relatório, os resultados de estimação de pose do projeto foram publicados em dois artigos (MEDER 2026 e CBA 2026, com pôster), e o bolsista participou do CERISE Summit 2026 como expositor e monitor.
+As pendências decorrem de cinco causas principais. A primeira é a falta de hardware: as placas LoRa e as antenas não foram adquiridas, de modo que o protótipo LoRa (Atividade 10) não passou pelo ensaio físico entre dois dispositivos e, no Objetivo 5, a construção dos módulos de comunicação definitivos e a adequação dos drones (itens 3 e 4) ficaram apenas em projeto, e a adequação física dos drones para a detecção e a contagem de pessoas (item 1) também ficou pendente; também a validação da RA dos modelos gerados depende de um aparelho físico. A segunda são as ações em plataformas externas ainda não executadas: a publicação na Play Store (Atividade 6) depende do Play Console, e a ampliação do *benchmark* de geração 3D aos modelos de acesso restrito (Stable Fast 3D, SPAR3D e TRELLIS.2), não necessária para a seleção já realizada, depende do aceite de licenças no Hugging Face. A terceira é a decisão, ainda não tomada, sobre a exposição pública do servidor de geração 3D e do visualizador do gêmeo digital: nada foi exposto à internet, e o aplicativo só funcionará fora da rede interna depois dessa exposição; a publicação da política de privacidade no endereço público previsto também aguarda decisão. A quarta é um defeito encontrado no fim do período: a recodificação da textura em JPEG não ocorria no pipeline empacotado, o que invalidou os tamanhos de arquivo medidos na rodada de *presets* (Atividade 3); o defeito foi corrigido no código do servidor e no repositório, mas a imagem Docker ainda precisa ser reconstruída e a rodada, refeita. A quinta é a calibração física do modelo digital do braço (Atividade 11), que depende do CAD ou de medições do braço físico. Quanto à Atividade 14, além deste relatório, os resultados de estimação de pose do projeto foram publicados em dois artigos (MEDER 2026 e CBA 2026, com pôster), e o bolsista participou do CERISE Summit 2026 como expositor e monitor.
 
 # Próximos passos
 
-Os próximos passos foram priorizados pelo quanto destravam as entregas pendentes:
+Os próximos passos foram priorizados conforme o quanto contribuem para concluir as entregas pendentes:
 
-- **Decisões e ações do bolsista**: decidir sobre a exposição pública do servidor de geração 3D e do visualizador do gêmeo digital; publicar a política de privacidade no endereço previsto; criar o aplicativo no Play Console e conduzir o teste interno, o teste fechado e o pedido de produção; aceitar no Hugging Face as licenças do Stable Fast 3D, do SPAR3D e do DINOv3 para ampliar o *benchmark*; e definir o acesso dos avaliadores aos repositórios privados.
+- **Decisões e ações do bolsista**: decidir sobre a exposição pública do servidor de geração 3D e do visualizador do gêmeo digital; publicar a política de privacidade no endereço previsto; criar o aplicativo no Play Console e conduzir o teste interno, o teste fechado e o pedido de produção; aceitar no Hugging Face as licenças do Stable Fast 3D, do SPAR3D e do DINOv3 (codificador exigido pelo TRELLIS.2) para ampliar o *benchmark*; e definir como os avaliadores terão acesso aos repositórios privados.
 - **Aquisição de hardware e ensaios de rádio**: adquirir as placas Heltec WiFi LoRa 32 V3 e as antenas da lista de materiais, gravar o firmware, executar o ensaio de alcance e de taxa de entrega e medir o consumo e a massa reais do módulo; em seguida, implementar o TDMA sincronizado por GPS, o salto de frequência e a cifragem com autenticação, encaminhar a homologação, testar a realocação entre drones com os rádios e instalar os módulos nos drones.
 - **Remedições e consolidação**: reconstruir a imagem Docker do pipeline com a correção da textura e refazer, numa janela ociosa da GPU, a rodada de *presets*, os tamanhos de GLB e a suíte de carga do servidor; exigir textura JPEG nos testes automatizados; recalibrar a estimativa de tempo do *preset* alto; e ligar o monitoramento das métricas do servidor.
-- **Validação em condições reais**: testar o aplicativo em aparelhos físicos Android e iOS, com fotografias da câmera, rede móvel e RA dos modelos gerados; calibrar massas e inércias do modelo digital a partir do CAD ou de medições do braço físico; capturar imagens do braço servo6dof físico para aplicar a etapa autossupervisionada de 2025 e validar o modelo de pose e o gêmeo digital fora da simulação, incluindo pontos-chave nas pinças para estimar a rotação e a abertura da garra; repetir a simulação no Isaac Sim no cenário completo (navmesh por subárea) e calibrar o detector com imagens sintéticas; executar as missões de drones no QGroundControl e em SITL antes de voos no Campus Samambaia; e coletar imagens próprias em nádir para ajustar o detector de pessoas.
+- **Validação em condições reais**: testar o aplicativo em aparelhos físicos Android e iOS, com fotografias da câmera, rede móvel e RA dos modelos gerados; calibrar massas e inércias do modelo digital a partir do CAD ou de medições do braço físico; capturar imagens do braço servo6dof físico para aplicar a etapa autossupervisionada de 2025 e validar o modelo de pose e o gêmeo digital fora da simulação, incluindo pontos-chave nas pinças para estimar a rotação e a abertura da garra; repetir a simulação no Isaac Sim no cenário completo (navmesh por subárea) e calibrar o detector com imagens sintéticas; executar as missões de drones no QGroundControl e em SITL antes de voos no Campus Samambaia; e coletar imagens próprias em nadir para ajustar o detector de pessoas.
 - **Divulgação científica**: dar continuidade aos artigos do MEDER 2026 e do CBA 2026 com um trabalho sobre os resultados de 2026 — adaptação do modelo de pose ao braço servo6dof com o novo dataset e o gêmeo digital, e a geração 3D integrada ao aplicativo — para submissão a congresso ou periódico da área.
 
 # Anexos
 
 O código-fonte, os resultados medidos (arquivos JSON e CSV), os registros de execução e as evidências citadas neste relatório estão nos repositórios listados a seguir, reunidos na organização [cerise-ufg](https://github.com/cerise-ufg) do GitHub. Os repositórios são privados, e o acesso pode ser concedido mediante solicitação ao bolsista. Os arquivos volumosos — o dataset completo do braço robótico nas versões cinza e laranja, os pesos dos modelos treinados, as saídas brutas das simulações, os resultados da geração 3D e os pacotes do aplicativo — estão anexados às Releases de cada repositório, com somas SHA-256 e instruções de extração no arquivo RELEASES.md; dados e pesos de terceiros não são redistribuídos e têm a fonte documentada em cada README. Algumas figuras deste relatório foram recortadas, rearranjadas ou redesenhadas a partir das evidências originais, sem alteração dos dados, para melhorar a legibilidade.
+
+O roteiro de implementação (Roteiro de Implementação CERISE 2026, em .docx e .pdf) está na pasta roteiro do repositório cerise-2026-relatorio e na [pasta Roteiros do CERISE](https://drive.google.com/drive/folders/1qiLqiGBkxPcD4h62EyZO-sAeQxQ4lQuS) no Google Drive. Cada repositório de código traz a parte correspondente no arquivo ROTEIRO.md.
 
 Tabela: Repositórios com o código, os resultados medidos e as evidências das atividades
 | Repositório | Conteúdo |
@@ -991,7 +997,7 @@ Tabela: Repositórios com o código, os resultados medidos e as evidências das 
 | [cerise-2026-pose-servo6dof](https://github.com/cerise-ufg/cerise-2026-pose-servo6dof) | Porte, treino e avaliação do modelo de estimação de pose e módulo de inferência |
 | [cerise-2026-lora-prototipo](https://github.com/cerise-ufg/cerise-2026-lora-prototipo) | Protocolo, firmware, testes, simulação e projeto do módulo de comunicação LoRa |
 | [cerise-2026-drones-segmentacao](https://github.com/cerise-ufg/cerise-2026-drones-segmentacao) | Segmentação de áreas, colaboração entre drones, detecção e contagem de pessoas, validação em vídeos reais e simulação 3D no Isaac Sim |
-| [cerise-2026-relatorio](https://github.com/cerise-ufg/cerise-2026-relatorio) | Este relatório (texto-fonte, .docx e .pdf), gerador, figuras e anexos (artigos, pôster, certificados e fotos do CERISE Summit 2026) |
+| [cerise-2026-relatorio](https://github.com/cerise-ufg/cerise-2026-relatorio) | Este relatório (texto-fonte, .docx e .pdf), roteiro de implementação (pasta roteiro, .docx e .pdf), gerador, figuras e anexos (artigos, pôster, certificados e fotos do CERISE Summit 2026) |
 
 # Referências bibliográficas
 
@@ -1099,7 +1105,7 @@ Tabela: Repositórios com o código, os resultados medidos e as evidências das 
 
 [52] ZHU, P. et al. Detection and tracking meet drones challenge. IEEE Transactions on Pattern Analysis and Machine Intelligence, v. 44, n. 11, p. 7380-7399, 2022.
 
-[53] JOCHER, G.; QIU, J. Ultralytics YOLO11. Versão 11.0.0, 2024. Disponível em: [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics). Acesso em: 26 out. 2026.
+[53] JOCHER, G.; QIU, J. Ultralytics YOLO11. Versão 11.0.0, 2024 (biblioteca ultralytics 8.4.189 usada neste trabalho). Disponível em: [https://github.com/ultralytics/ultralytics](https://github.com/ultralytics/ultralytics). Acesso em: 26 out. 2026.
 
 [54] ZHANG, Y. et al. ByteTrack: multi-object tracking by associating every detection box. In: EUROPEAN CONFERENCE ON COMPUTER VISION (ECCV), 17., 2022, Tel Aviv. Proceedings [...]. Cham: Springer, 2022. p. 1-21. (Lecture Notes in Computer Science, v. 13682).
 

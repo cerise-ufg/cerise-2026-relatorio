@@ -41,7 +41,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
-from PIL import Image
+from PIL import Image, ImageFont
 
 AZUL = '1F4E79'
 FONT = 'Arial'
@@ -109,24 +109,59 @@ def add_hyperlink(paragraph, url, text, size=None):
 
 INLINE = re.compile(r'(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|https?://[^\s)]+)')
 
+# espaço entre número e unidade vira espaço não separável ("13,8 %" não quebra entre linhas); não vale para código
+UNIDADE = re.compile(r'(?<=\d) (?=(?:%|°C|°|ms|s|min|h|B|KB|kB|KiB|MB|GB|TB|MiB|GiB|bytes|bits|bps|m|cm|mm|km|m²|m³|'
+                     r'px|MP|ha|fps|FPS|Hz|kHz|MHz|GHz|dB|dBm|dBi|W|mW|V|mA|mAh|kg|g|rad|páginas|p\.p\.)(?![\wÀ-ÿ]))')
+# outras quebras que separam um valor: "55,0 × 44,3", "ρ = 0,62", "8,3–8,6" e iniciais de nomes ("A. A. Cardoso")
+NAO_QUEBRA = [(re.compile(r'(?<=\d) × (?=\d)'), '\u00a0× '),
+              (re.compile(r'(?<=\S) = (?=[\d−-])'), '\u00a0=\u00a0'),
+              (re.compile(r'(?<=\d)–(?=\d)'), '\u2060–\u2060'),
+              (re.compile(r'(?<=\b[A-ZÀ-Ý]\.) (?=[A-ZÀ-Ý]\.)'), '\u00a0')]
+
+
+def nbsp(texto):
+    texto = UNIDADE.sub('\u00a0', texto)
+    for padrao, troca in NAO_QUEBRA:
+        texto = padrao.sub(troca, texto)
+    return texto
+
+
+_FONTES = {}
+
+
+def _largura_twips(palavra, negrito=False, pt=9.5):
+    """Largura de uma palavra em Arial (twips) no tamanho do texto das tabelas; 0 se a fonte não existir."""
+    if negrito not in _FONTES:
+        nome = 'arialbd.ttf' if negrito else 'arial.ttf'
+        try:
+            _FONTES[negrito] = ImageFont.truetype(os.path.join(os.environ.get('WINDIR', r'C:\Windows'), 'Fonts', nome), 1000)
+        except OSError:
+            _FONTES[negrito] = None
+    f = _FONTES[negrito]
+    return f.getlength(palavra) / 1000 * pt * 20 if f else 0
+
 
 def add_inline(paragraph, text, size=None, base_bold=False, color=None):
     for tok in INLINE.split(text):
         if not tok:
             continue
         if tok.startswith('**') and tok.endswith('**'):
-            r = paragraph.add_run(tok[2:-2]); set_run_font(r, size, bold=True, color=color)
+            r = paragraph.add_run(nbsp(tok[2:-2])); set_run_font(r, size, bold=True, color=color)
         elif tok.startswith('*') and tok.endswith('*') and len(tok) > 2:
-            r = paragraph.add_run(tok[1:-1]); set_run_font(r, size, italic=True, bold=base_bold or None, color=color)
+            r = paragraph.add_run(nbsp(tok[1:-1])); set_run_font(r, size, italic=True, bold=base_bold or None, color=color)
         elif tok.startswith('`') and tok.endswith('`'):
             r = paragraph.add_run(tok[1:-1]); set_run_font(r, (size or 12) - 1, mono=True, color=color)
         elif tok.startswith('[') and '](' in tok:
             m = re.match(r'\[([^\]]+)\]\(([^)]+)\)', tok)
             add_hyperlink(paragraph, m.group(2), m.group(1), size)
         elif tok.startswith('http'):
-            add_hyperlink(paragraph, tok, tok, size)
+            # pontuação final ("Disponível em: https://... . Acesso em") fica fora do link
+            url = tok.rstrip('.,;:')
+            add_hyperlink(paragraph, url, url, size)
+            if url != tok:
+                r = paragraph.add_run(tok[len(url):]); set_run_font(r, size, bold=base_bold or None, color=color)
         else:
-            r = paragraph.add_run(tok); set_run_font(r, size, bold=base_bold or None, color=color)
+            r = paragraph.add_run(nbsp(tok)); set_run_font(r, size, bold=base_bold or None, color=color)
 
 
 def ppr_set(p, style=None, jc=None, first_line=None, left=None, hanging=None, before=None, after=None,
@@ -134,10 +169,11 @@ def ppr_set(p, style=None, jc=None, first_line=None, left=None, hanging=None, be
     pPr = p._p.get_or_add_pPr()
     if style:
         ps = OxmlElement('w:pStyle'); ps.set(qn('w:val'), style); pPr.insert(0, ps)
-    if keep_next:  # ordem do esquema OOXML: keepNext, pageBreakBefore, numPr
+    if keep_next:  # ordem do esquema OOXML: keepNext, pageBreakBefore, widowControl, numPr
         pPr.append(OxmlElement('w:keepNext'))
     if page_break_before:
         pPr.append(OxmlElement('w:pageBreakBefore'))
+    pPr.append(OxmlElement('w:widowControl'))  # sem linha sozinha no pé ou no topo da página
     if num:
         numPr = OxmlElement('w:numPr')
         il = OxmlElement('w:ilvl'); il.set(qn('w:val'), str(num[1])); numPr.append(il)
@@ -228,6 +264,9 @@ class Builder:
                 self._set_para_text(kids[i], self.capa.get('rotulo_coord', 'Coordenadores dos Grupos / Eixos Temáticos: '), self.capa['coordenador'])
             elif t.startswith('Versão:'):
                 self._set_para_text(kids[i], 'Versão: ', self.capa['versao'])
+            elif t.strip() == 'Relatório Técnico-Científico' and self.capa.get('tipo'):
+                # permite reaproveitar o modelo para outros documentos (ex.: "Roteiro de Implementação")
+                self._set_para_text(kids[i], '', self.capa['tipo'])
         if self.capa.get('bolsista'):
             # insere o nome do bolsista logo após o título do plano
             anchor = next(k for k, t in zip(kids, texts) if t.startswith('Título do Plano'))
@@ -304,6 +343,22 @@ class Builder:
         p = self._new_p()
         ppr_set(p, style='Normal1', num=(2, level), jc='both', after=60, left=1077 + 360 * level, hanging=357)
         add_inline(p, text, 12)
+
+    def code(self, linhas):
+        """Bloco de código (```): fonte monoespaçada (8 pt, ~93 caracteres por linha), fundo cinza claro.
+
+        Linha que não cabe na largura continua abaixo com recuo deslocado (quebra só visual: copiada do PDF,
+        volta a ser uma linha só)."""
+        for k, ln in enumerate(linhas):
+            p = self._new_p()
+            ppr_set(p, jc='left', left=284 + 454, hanging=454, after=0 if k < len(linhas) - 1 else 140, line=240,
+                    keep_next=k < len(linhas) - 1)
+            pPr = p._p.get_or_add_pPr()
+            shd = OxmlElement('w:shd'); shd.set(qn('w:val'), 'clear'); shd.set(qn('w:color'), 'auto'); shd.set(qn('w:fill'), 'F2F2F2')
+            pPr.find(qn('w:spacing')).addprevious(shd)  # ordem do esquema OOXML: shd antes de spacing
+            r = p.add_run(ln if ln else ' ')
+            r._element.find(qn('w:t')).set(qn('xml:space'), 'preserve')
+            set_run_font(r, 8, mono=True, color='1F1F1F')
 
     def pagebreak(self):
         p = self._new_p()
@@ -395,9 +450,20 @@ class Builder:
             longest = max(len(c) for c in body)
             head = len(cells[0])
             word = max((len(w) for c in cells for w in c.split()), default=1)
+            # opcional (capa.json "tabela_max_palavra"): limita o peso de palavras muito longas, como caminhos de
+            # arquivo, que então quebram dentro da célula em vez de estreitar as outras colunas
+            if self.capa.get('tabela_max_palavra'):
+                word = min(word, int(self.capa['tabela_max_palavra']))
             desired.append(max(min(longest, 100), 0.55 * head, word) * CH + PAD)
+            # maior palavra medida na fonte real (cabeçalho em negrito), para não sair "Makespa|n" nem "ADD@6|0";
+            # 216 twips de margens da célula e 40 de folga
+            # trechos unidos por espaço não separável ("60 mm") contam como uma palavra só
+            medida = max([_largura_twips(w, True) for w in nbsp(cells[0]).split(' ')] +
+                         [_largura_twips(w) for c in body for w in nbsp(c).split(' ')] + [0]) + 256
+            if self.capa.get('tabela_max_palavra'):
+                medida = min(medida, word * CH + PAD)
             # células curtas (até 12 caracteres) não quebram; nas demais, basta caber a maior palavra
-            minimum.append(max(850, word * CH + PAD, (longest * CH + PAD) if longest <= 12 else 0))
+            minimum.append(max(850, word * CH + PAD, medida, (longest * CH + PAD) if longest <= 12 else 0))
         if sum(minimum) >= total:
             return [int(m * total / sum(minimum)) for m in minimum]
         scale = total / sum(desired)
@@ -432,6 +498,16 @@ class Builder:
             s = ln.strip()
             if not s:
                 flush(); i += 1; continue
+            if s.startswith('```'):
+                flush()
+                bloco = []
+                i += 1
+                while i < len(lines) and not lines[i].strip().startswith('```'):
+                    bloco.append(lines[i].rstrip('\n').expandtabs(4))
+                    i += 1
+                i += 1
+                self.code(bloco)
+                continue
             if s == '<!-- pagebreak -->':
                 flush(); self.pagebreak(); i += 1; continue
             if s.startswith('<!--'):
@@ -465,8 +541,16 @@ class Builder:
         flush()
 
     def save(self, out):
-        self.doc.core_properties.title = 'Relatório Técnico-Científico CERISE'
-        self.doc.core_properties.author = self.capa.get('bolsista', '')
+        import datetime
+        cp = self.doc.core_properties
+        cp.title = self.capa.get('titulo_documento', 'Relatório Técnico-Científico CERISE')
+        cp.author = self.capa.get('bolsista', '')
+        # o modelo oficial traz metadados do arquivo de origem (outro autor, datas de 2024); substitui pelos do relatório
+        cp.last_modified_by = self.capa.get('bolsista', '')
+        agora = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
+        cp.created = agora
+        cp.modified = agora
+        cp.revision = 1
         self.doc.save(out)
 
 
